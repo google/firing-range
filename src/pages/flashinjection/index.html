@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Firing Range - Flash Injection</title>
+</head>
+<body>
+  <div class="intro">
+    <p>
+      This page contains two <code>script</code> tags:</p>
+    <ol>
+      <li>
+        One refers to a JSONP endpoint which returns <code>callback({});</code>,
+        where <code>callback</code> is the value of the query parameter called
+        "callback".<br/>
+        The endpoint only accepts alphanumeric values for the callback name,
+        but is still vulnerable to the
+        <a href="http://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash">
+          Rosetta Flash</a> attack.
+      </li>
+      <li>
+        The other refers to an endpoint which always returns
+        <code>func({});</code>.<br/>
+        The URL in the <code>src</code> attribute of the <code>script</code>
+        tag supplies a query parameter <code>callback=func</code> which may
+        trick some scanners into thinking that the endpoint is vulnerable
+        (as the response begins with the value of a query parameter). 
+      </li>
+    </ol>
+    </p>
+  </div>
+
+  <script type="text/javascript">
+    var func = function() {};
+  </script>
+
+  <script src="/flashinjection/callbackParameterDoesNothing?callback=func">
+  </script>
+
+  <script src="/flashinjection/callbackIsEchoedBack?callback=func">
+  </script>
+</body>
+</html>

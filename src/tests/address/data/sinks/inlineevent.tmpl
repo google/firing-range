@@ -1,0 +1,3 @@
+var div = document.createElement('div');
+div.innerHTML = '<div onclick=\'' + payload.replace(/'/g, '"') + '\'>div</div>';
+document.documentElement.appendChild(div);

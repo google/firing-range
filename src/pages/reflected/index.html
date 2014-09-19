@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Firing Range - Reflected </title>
+</head>
+<body>
+
+<div class="intro">
+  <p>
+    This page collects reflected XSS from an array of sources and to various sinks.
+    The sinks are distributed to cover the HTML contexts, while the sources try to
+    cover as many of the real data sources as possible.
+  </p>
+  <p>
+    Unless otherwise specified, no escaped is performed on the payload.
+  </p>
+</div>
+
+<h2>HTML Contexts</h2>
+<div class="test">
+  <p> This class of XSS simply takes a value from the parameter and echoes it
+      back in an HTML page in a specific HTML context </p>
+  <ul>
+    <li>
+      <a href="/reflected/parameter/body?q=a">Parameter - Body</a> -
+      The parameter is echoed within the main BODY tag.
+    </li>
+    <li>
+      <a href="/reflected/parameter/head?q=a">Parameter - Head</a> -
+      The parameter is echoed within the HEAD tag.
+    </li>
+    <li>
+      <a href="/reflected/parameter/title?q=a">Parameter - Title</a> -
+      The parameter is echoed within the TITLE tag.
+    </li>
+    <li>
+      <a href="/reflected/parameter/body_comment?q=a">Parameter - Body HTML comment</a> -
+      The parameter is echoed inside an HTML comment in the HTML BODY.
+    </li>
+    <li>
+      <a href="/reflected/parameter/tagname?q=a">Parameter - Tag name</a> - 
+      The parameter is used as a tag name, i.e. <code>&lt;%q&gt;</code>
+    </li>
+    <li>
+      <a href="/reflected/parameter/attribute_unquoted?q=a">Parameter - Attribute unquoted</a> - 
+      The parameter is echoed in an HTML attribute, unquoted. i.e.
+      <code>&lt;foo src=%q&gt;</code>
+    </li>
+    <li>
+      <a href="/reflected/parameter/attribute_singlequoted?q=a">Parameter - Attribute single quoted</a> - 
+      The parameter is echoed in an HTML attribute, single quoted. i.e.
+      <code>&ltfoo src='%q'&gt</code>
+    </li>
+    <li>
+      <a href="/reflected/parameter/attribute_quoted?q=a">Parameter - Attribute double quoted</a> - 
+      The parameter is echoed in an HTML attribute, double quoted. i.e.
+      <code>&lt;foo src="%q"&gt;</code>
+    </li>
+    <li>
+      <a href="/reflected/parameter/attribute_name?q=a">Parameter - Attribute name</a> - 
+      The parameter is used as an attribute name, i.e. <code>&lt;foo %q=irrelevant&gt</code> 
+    </li>
+  </ul>
+</div>
+<h3>Tags with special semantics:</h3>
+<div class="test">
+  <p>Tags that ignore content in between the closing and the opening tag</p>
+  <ul>
+    <li>
+      <a href="/reflected/parameter/iframe_attribute_value?q=a">Parameter - iFrame Attribute Value</a> - 
+      The parameter is used as an attribute value, i.e. <code>&lt;iframe attribute=%q&gt</code>
+    </li>
+    <li>
+      <a href="/reflected/parameter/iframe_srcdoc?q=a">Parameter - iFrame srcdoc</a> - 
+      The parameter is used as an attribute value, i.e. <code>&lt;iframe srcdoc=%q&gt</code>.
+      The srcdoc attribute is supposed to be used together with the sandbox and seamless attributes.
+      If a srcdoc attribute is present within an iframe it will override content specified by the 
+      src attribute. Thereby it accepts arbitrary HTML code which will be rendered inside the iframe.
+    </li>
+    <li>
+      <a href="/reflected/parameter/textarea?q=a">Parameter - Textarea</a> -
+      The parameter is echoed in a TEXTAREA tag's CDATA. In this case, no
+      parsing of the payload is performed unless the TEXTAREA tag is closed.
+    </li>
+    <li>
+      <a href="/reflected/parameter/textarea_attribute_value?q=a">Parameter - Textarea Attribute Value</a> - 
+      The parameter is used as an attribute value, i.e. <code>&lt;textarea attribute=%q&gt</code>
+    </li>
+    <li>
+      <a href="/reflected/parameter/noscript?q=a">Parameter - NoScript</a> -
+      The parameter is echoed in a NOSCRIPT tag's CDATA. In this case, no
+      parsing of the payload is performed unless the NOSCRIPT tag is closed.
+    </li>
+    <li>
+      <a href="/reflected/parameter/style_attribute_value?q=a">Parameter - Style Attribute Value</a> - 
+      The parameter is used as an attribute value, i.e. <code>&lt;style attribute=%q&gt</code>
+    </li>
+  </ul>
+</div>
+
+<h2>CSS context</h2>
+<div class="test">
+  <p> XSS that can occur inside a STYLE block or inside a style="" attribute. </p>
+  <ul>
+    <li>
+      <a href="/reflected/parameter/css_style?q=a">Parameter - CSS</a> - 
+      The parameter is echoed as the only content of a STYLE tag positioned
+      into the HEAD.
+    </li>
+    <li>
+      <a href="/reflected/parameter/css_style_value?q=a">Parameter - CSS Value</a> - 
+      The parameter is echoed as a color value in a STYLE tag positioned into
+      the HEAD.
+    </li>
+    <li>
+      <a href="/reflected/parameter/css_style_font_value?q=a">Parameter - CSS Font Name</a> - 
+      The parameter is echoed as a font value in a STYLE tag positioned into
+      the HEAD. Font name is particularly interesting because many sanitizers
+      do not behave correctly when parsing it.
+    </li>
+  </ul>
+</div>
+
+
+<h2>HTML event handler JS context</h2>
+<div class="test">
+  <p> XSS that can occur inside eventhandler attribute of a HTML element. </P>
+  <ul>
+    <li>
+      <a href="/reflected/parameter/js_eventhandler_unquoted?q=a">Parameter - unquoted onclick</a> -
+      The parameter is echoed in an HTML event handler attribute, unquoted. i.e.
+      <code>&lt;div onclick=%q&gt;&lt;/div&gt;</code>
+    </li>
+    <li>
+      <a href="/reflected/parameter/js_eventhandler_quoted?q=a">Parameter - quoted onclick</a> -
+      The parameter is echoed in an HTML event handler attribute, double-quoted. i.e.
+      <code>&lt;div onclick="%q"&gt;&lt;/div&gt;</code>
+    </li>
+    <li>
+      <a href="/reflected/parameter/js_eventhandler_singlequoted?q=a">Parameter - singlequoted onclick</a> -
+      The parameter is echoed in an HTML event handler attribute, single-quoted. i.e.
+      <code>&lt;div onclick='%q'&gt;&lt;/div&gt;</code>
+    </li>
+  </ul>
+</div>
+
+<h2>JS context</h2>
+<div class="test">
+  <p> XSS that can occur inside a SCRIPT block. </P>
+  <ul>
+    <li>
+      <a href="/reflected/parameter/js_assignment?q=a">Parameter - Javascript unquoted assignment</a> - 
+      Assigns the parameter value to an unquoted js assignment, i.e. var foo = %q;
+    </li>
+    <li>
+      <a href="/reflected/parameter/js_eval?q=a">Parameter - Javascript eval</a> - 
+      Pipes the parameter into an eval, i.e. eval(%q);
+    </li>
+    <li>
+      <a href="/reflected/parameter/js_quoted_string?q=a">Parameter - Javascript quoted string</a> - 
+      Assigns the parameter value to an quoted js assignment, i.e. var foo = "%q";
+    </li>
+    <li>
+      <a href="/reflected/parameter/js_singlequoted_string?q=a">Parameter - Javascript single quoted string</a> - 
+      Assigns the parameter value to a single quoted js assignment, i.e. var foo = '%q';
+    </li>
+    <li>
+      <a href="/reflected/parameter/js_slashquoted_string?q=a">Parameter - Javascript slash quoted string</a> - 
+      Assigns the parameter value to a single slash quoted js assignment, i.e. var foo = \%q\;
+    </li>
+    <li>
+      <a href="/reflected/parameter/js_comment?q=a">Parameter - Javascript comment</a> - 
+      Inserts the parameter into a javascript comment, i.e. /* %q */
+    </li>
+  </ul>
+</div>
+
+
+<h2>URLs</h2>
+<div class="test">
+  <p> XSS that can occur due to unsanitized URLs in various contexts.</p> 
+  <ul>
+    <li><a href="/reflected/parameter/attribute_script?q=a">Parameter - Script SRC double quoted</a> -
+      Assigns the parameter to a SCRIPT src between quotes.
+    </li>
+    <li>
+      <a href="/reflected/url/href?q=a">URL - HREF</a> -
+      Assigns the parameter to an HREF property of an A tag. Requires clicking to trigger.
+    </li>
+    <li>
+      <a href="/reflected/url/css_import?q=a">URL - CSS</a> - 
+      Assigns the parameter to the SRC property of a STYLE tag in the HEAD.
+    </li>
+    <li>
+      <a href="/reflected/url/script_src?q=a">URL - Script SRC</a> - 
+      Assigns the parameter to the SRC property of a SCRIPT tag. The parameter must contain
+      a parseable URL.
+    </li>
+    <li>
+      <a href="/reflected/url/object_data?q=a">URL - Object DATA</a> - 
+      Assigns the parameter to the DATA property of an OBJECT tag. The parameter must contain 
+      a parseable URL.
+    </li>
+    <li>
+      <a href="/reflected/url/object_param?q=a">URL - Param SRC</a> - 
+      Assigns the parameter to the SRC property of an OBJECT's PARAM tag. The parameter 
+      must contain a parseable URL.
+    </li>
+  </ul>
+</div>
+
+<h2>Content sniffing</h2>
+<div class="test">
+  <p>These XSS can only be triggered on (and affect) content sniffing browsers.</p> 
+  <ul>
+    <li>
+      <a href="/reflected/parameter/json?q=a">Parameter - JSON</a> -
+      Inserts the parameter inside a JSON object. Returns an HTML content type.
+      <i>Note that this XSS does not actually require MIME content sniffing</i>
+    </li>
+    <li>
+      <a href="/reflected/contentsniffing/json?q=a">ContentSniffing</a> -
+      Inserts the parameter inside a JSON object. Returns a JSON content type.
+    </li>
+    <li>
+      <a href="/reflected/contentsniffing/plaintext?q=a">ContentSniffing</a> -
+      Inserts the parameter in a plain/text page.
+    </li>
+    <li>
+      <a href="/reflected/jsoncallback">ContentSniffing - Callback</a></li> -
+      Uses an <b>hidden</b> callback parameter as a JSONP callback. The interesting bit
+      here is that the callback parameter is <b>not</b> in this link, so the scanner
+      has to guess its presence.
+    </li>
+  </ul>
+</div>
+
+<h2>Libraries</h2>
+<div class="test">
+  <p>XSS exploiting custom XSS payloads.</p>
+  <ul>
+    <li>
+      <a href="/reflected/filteredcharsets/angular_body/AngularParenthesis?q=a">Parameter - Body - blocks < and >, uses angular library</a> -
+      The parameter is echoed in the body, blocking requests with < and >, but uses Angular for parsing.
+    </li>
+  </ul>
+</DIV>
+
+<h2>Escaping and filtering</h2>
+<div class="test">
+  <p>XSS requiring escaping or filtering certain types of requests.</p>
+  <ul>
+    <li>
+      <a href="/reflected/parameter/form">Form</a> -
+      This XSS, in the BODY, only triggers on a POST. The page shows the HTML FORM
+      needed to trigger it.
+    </li>
+    <li>
+      <a href="/reflected/filteredcharsets/body/SpaceDoubleQuoteSlashEquals?q=a">Parameter - Body - Blocks SpaceDoubleQuoteSlashEquals</a> -
+      The parameter is echoed in the BODY tag, but any request containing
+      space, double quotes, slash and equals is blocked.
+    </li>
+    <li>
+      <a href="/reflected/parameter/attribute_unquoted/DoubleQuoteSinglequote?q=a">Parameter - Attribute unquoted - Blocks DoubleQuoteSinglequote</a> -
+      The parameter is echoed inside an unquoted HTML attribute of a tag.
+      Payloads containing double quotes and single quotes are blocked.
+    </li>
+
+    <li>
+      <a href="/reflected/filteredstrings/body/caseSensitive/script?q=a">Parameter - Body - Blocks lowercase script</a> -
+      The parameter is echoed in the BODY tag, but any request containing a lowercase "script" is blocked.
+    </li>
+    <li>
+      <a href="/reflected/filteredstrings/body/caseSensitive/SCRIPT?q=a">Parameter - Body - Blocks uppercase script</a> -
+      The parameter is echoed in the BODY tag, but any request containing a uppercase "SCRIPT" is blocked.
+    </li>
+    <li>
+      <a href="/reflected/filteredstrings/body/caseInsensitive/script?q=a">Parameter - Body - Blocks any script</a> -
+      The parameter is echoed in the BODY tag, but any request containing any case "script" is blocked.
+    </li>
+</ul>
+</DIV>
+
+</body>
+</html>

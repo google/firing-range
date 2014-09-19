@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Firing Range - address sourced DOM vulnerabilities </title>
+</head>
+<body>
+<div class="intro">
+  These vulnerabilities source the payload from a component of the address bar, usually the fragment,
+  and use javascript sinks to trigger DOM based XSS.
+</div>
+<div class="test">
+  <strong>Location.hash</strong>
+  <p>Sources from the location.hash and sinks into various javascript functions.</p>
+  <ul>
+    <li><a href="/address/location.hash/assign">Location.hash - assign - assign</a></li>
+    <li><a href="/address/location.hash/documentwrite">Location.hash - documentwrite</a></li>
+    <li><a href="/address/location.hash/documentwriteln">Location.hash - documentwriteln</a></li>
+    <li><a href="/address/location.hash/eval">Location.hash - eval</a></li>
+    <li><a href="/address/location.hash/innerHtml">Location.hash - innerHtml</a></li>
+    <li><a href="/address/location.hash/rangeCreateContextualFragment">Location.hash - range.createContextualFragment</a></li>
+    <li><a href="/address/location.hash/replace">Location.hash - replace</a></li>
+    <li><a href="/address/location.hash/setTimeout">Location.hash - setTimeout</a></li>
+    <li><a href="/address/location.hash/function">Location.hash - function</a></li>
+    <br>
+    <li><a href="/address/location.hash/onclickSetAttribute">Location.hash - onclick setAttribute</a></li>
+    <li><a href="/address/location.hash/onclickAddEventListener">Location.hash - onclick addEventListener</a></li>
+    <li><a href="/address/location.hash/jshref">Location.hash - javascript url</a></li>
+    <li><a href="/address/location.hash/inlineevent">Location.hash - inline event handler</a></li>
+    <li><a href="/address/location.hash/formaction">Location.hash - form action</a></li>
+  </ul>
+</div>
+<div class="test">
+  <strong>Location</strong>
+  <p>Sources from the raw location and sinsk into various javascript functions.</p>
+  <ul>
+    <li><a href="/address/location/assign">location - assign</a></li>
+    <li><a href="/address/location/documentwrite">location - documentwrite</a></li>
+    <li><a href="/address/location/documentwriteln">location - documentwriteln</a></li>
+    <li><a href="/address/location/eval">location - eval</a></li>
+    <li><a href="/address/location/innerHtml">location - innerHtml</a></li>
+    <li><a href="/address/location/rangeCreateContextualFragment">Location - range.createContextualFragment</a></li>
+    <li><a href="/address/location/replace">location - replace</a></li>
+    <li><a href="/address/location/setTimeout">Location - setTimeout</a></li>
+  </ul>
+</div>
+<div class="test">
+  <strong>Others</strong>
+  <p>Various other sources and sinks: the first value represnets the DOM source, the second the JS sink.</p>
+  <ul>
+    <li><a href="/address/documentURI/documentwrite">documentURI - documentwrite</a></li>
+    <li><a href="/address/baseURI/documentwrite">baseURI - documentwrite</a></li>
+    <li><a href="/address/locationhref/documentwrite">location.href - documentwrite</a></li>
+    <li><a href="/address/locationpathname/documentwrite">location.pathname - documentwrite</a></li>
+    <li><a href="/address/locationsearch/documentwrite">location.search - documentwrite</a></li>
+    <li><a href="/address/URL/documentwrite">URL - documentwrite</a></li>
+    <li><a href="/address/URLUnencoded/documentwrite">URL Unencoded - documentwrite</a></li>
+  </ul>
+</div>
+</body>
+</html>

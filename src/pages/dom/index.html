@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Firing Range - DOM Tests</title>
+</head>
+<body>
+<strong>Cookies</strong>
+<ul>
+  <li><a href="/dom/toxicdom/document/cookie_set/eval">Cookie - Value is set - eval</a></li>
+  <li><a href="/dom/toxicdom/document/cookie/eval">Cookie - eval</a></li>
+  <li><a href="/dom/toxicdom/document/cookie/innerHtml">Cookie - innerHTML</a></li>
+  <li><a href="/dom/toxicdom/document/cookie/documentWrite">Cookie - documentWrite</a></li>
+</ul>
+<strong>Referrer</strong>
+<ul>
+  <li><a href="/dom/toxicdom/document/referrer/eval">Referrer - eval</a></li>
+  <li><a href="/dom/toxicdom/document/referrer/innerHtml">Referrer - innerHTML</a></li>
+  <li><a href="/dom/toxicdom/document/referrer/documentWrite">Referrer - documentWrite</a></li>
+</ul>
+<strong>Window name</strong>
+<ul>
+  <li><a href="/dom/toxicdom/window/name/eval">window.name - eval</a></li>
+  <li><a href="/dom/toxicdom/window/name/innerHtml">window.name - innerHTML</a></li>
+  <li><a href="/dom/toxicdom/window/name/documentWrite">window.name - documentWrite</a></li>
+</ul>
+<strong>LocalStorage</strong>
+<ul>
+  <li><a href="/dom/toxicdom/localStorage/array/eval">LocalStorage - Array - eval</a></li>
+  <li><a href="/dom/toxicdom/localStorage/function/innerHtml">LocalStorage - Function - innerHTML</a></li>
+  <li><a href="/dom/toxicdom/localStorage/property/documentWrite">LocalStorage - Property - documentWrite</a></li>
+</ul>
+<strong>SessionStorage</strong>
+<ul>
+  <li><a href="/dom/toxicdom/sessionStorage/array/eval">SessionStorage - Array - eval</a></li>
+  <li><a href="/dom/toxicdom/sessionStorage/function/innerHtml">SessionStorage - Function - innerHTML</a></li>
+  <li><a href="/dom/toxicdom/sessionStorage/property/documentWrite">SessionStorage - Property - documentWrite</a></li>
+</ul>
+<strong>PostMessage</strong>
+<p>Sinks located inside a PostMessage handler missing a proper origin check.</p>
+<ul>
+  <li><a href="/dom/toxicdom/postMessage/eval">PostMessage - eval</a></li>
+  <li><a href="/dom/toxicdom/postMessage/innerHtml">PostMessage - innerHTML</a></li>
+  <li><a href="/dom/toxicdom/postMessage/documentWrite">PostMessage - documentWrite</a></li>
+</ul>
+<h2>Event triggering</h2>
+<div class="test">
+  <p> This class of XSS is only triggered after an event is fired</p>
+  <ul>
+    <li><a href="/dom/eventtriggering/document/formSubmission/eval">Event triggering - eval</a></li>
+    <li><a href="/dom/eventtriggering/document/formSubmission/innerHtml">Event triggering - innerHTML</a></li>
+    <li><a href="/dom/eventtriggering/document/formSubmission/documentWrite">Event triggering - documentWrite</a></li>
+  </ul>
+</div> 
+</body>
+</html>

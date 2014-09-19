@@ -1,0 +1,19 @@
+What is Firing Range?
+-------------------
+
+Firing Range is a test bed for web application security scanners, providing synthetic, wide
+coverage for an array of vulnerabilities. It runs as an AppEngine application.
+
+
+What vulns are included in the latest version?
+-------------------
+
+XSS (DOM, Reflected)
+Mixed Content
+CORS Issues
+
+
+License information
+-------------------
+
+See the file "LICENSE".

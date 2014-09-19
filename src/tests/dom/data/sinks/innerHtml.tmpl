@@ -1,0 +1,12 @@
+// Sync trigger.
+var div = document.createElement('div');
+div.id = 'divEl';
+document.documentElement.appendChild(div);
+
+var divEl = document.getElementById('divEl');
+divEl.innerHTML = payload;
+
+// Async trigger.
+function trigger(payload) {
+  divEl.innerHTML = payload;
+};

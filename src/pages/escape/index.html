@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Firing Range - Escape </title>
+</head>
+<body>
+
+<div class="intro">
+  <p>
+    This page collects reflected XSS from an array of sources and to various sinks which are
+    escaped on the server before being passed to a sink.
+  </p>
+</div>
+
+<h2>HTML Contexts</h2>
+<div class="test">
+  <p> This class of XSS simply takes a value from the parameter and echoes it
+      back in an HTML page in a specific HTML context with some escaping</p>
+  <ul>
+    <li>
+      <a href="/escape/serverside/escapeHtml/body?q=a">Body - HTML escaped</a> -
+      The parameter is echoed within the main BODY tag.
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/body?q=a">Body - URL escaped</a> -
+      The parameter is echoed within the main BODY tag.
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/head?q=a">Head - HTML escaped</a> -
+      The parameter is echoed within the HEAD tag.
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/head?q=a">Head - URL escaped</a> -
+      The parameter is echoed within the HEAD tag.
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/body_comment?q=a">Body HTML comment - HTML escaped</a> -
+      The parameter is echoed inside an HTML comment in the HTML BODY.
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/body_comment?q=a">Body HTML comment - URL escaped</a> -
+      The parameter is echoed inside an HTML comment in the HTML BODY.
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/textarea?q=a">Textarea - HTML escaped</a> -
+      The parameter is echoed in a TEXTAREA tag's CDATA. In this case, no
+      parsing of the paylaod is performed unless the textarea tag is closed.
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/textarea?q=a">Textarea - URL escaped</a> -
+      The parameter is echoed in a TEXTAREA tag's CDATA. In this case, no
+      parsing of the paylaod is performed unless the textarea tag is closed.
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/tagname?q=a">Tag name - HTML escaped</a> -
+      The parameter is used as a tag name, i.e. <code>&lt;%q&gt;</code>
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/tagname?q=a">Tag name - URL escaped</a> -
+      The parameter is used as a tag name, i.e. <code>&lt;%q&gt;</code>
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/attribute_unquoted?q=a">Attribute unquoted - HTML escaped</a> -
+      The parameter is echoed in an HTML attribute, unquoted. i.e.
+      <code>&lt;foo src=%q&gt;</code>
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/attribute_unquoted?q=a">Attribute unquoted - URL escaped</a> -
+      The parameter is echoed in an HTML attribute, unquoted. i.e.
+      <code>&lt;foo src=%q&gt;</code>
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/attribute_singlequoted?q=a">Attribute single quoted - HTML escaped</a> -
+      The parameter is echoed in an HTML attribute, single quoted. i.e.
+      <code>&ltfoo src='%q'&gt</code>
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/attribute_singlequoted?q=a">Attribute single quoted - URL escaped</a> -
+      The parameter is echoed in an HTML attribute, single quoted. i.e.
+      <code>&ltfoo src='%q'&gt</code>
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/attribute_quoted?q=a">Attribute double quoted - HTML escaped</a> -
+      The parameter is echoed in an HTML attribute, double quoted. i.e.
+      <code>&lt;foo src="%q"&gt;</code>
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/attribute_quoted?q=a">Attribute double quoted - URL escaped</a> -
+      The parameter is echoed in an HTML attribute, double quoted. i.e.
+      <code>&lt;foo src="%q"&gt;</code>
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/attribute_name?q=a">Attribute name - HTML escaped</a> -
+      The parameter is used as an attribute name, i.e. <code>&lt;foo %q=irrelevant&gt</code>
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/attribute_name?q=a">Attribute name - URL escaped</a> -
+      The parameter is used as an attribute name, i.e. <code>&lt;foo %q=irrelevant&gt</code>
+    </li>
+  </ul>
+
+<h2>CSS context</h2>
+<div class="test">
+  <p> XSS that can occur inside a STYLE block or inside a style="" attribute. </p>
+  <ul>
+    <li>
+      <a href="/escape/serverside/escapeHtml/css_style?q=a">CSS - HTML escaped</a> -
+      The parameter is echoed as the only content of a STYLE tag positioned
+      into the HEAD.
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/css_style?q=a">CSS - URL escaped</a> -
+      The parameter is echoed as the only content of a STYLE tag positioned
+      into the HEAD.
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/css_style_value?q=a&escape=HTML_ESCAPE">CSS Value - HTML escaped</a> -
+      The parameter is echoed as a color value in a STYLE tag positioned into
+      the HEAD.
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/css_style_value?q=a">CSS Value - URL escaped</a> -
+      The parameter is echoed as a color value in a STYLE tag positioned into
+      the HEAD.
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/css_style_font_value?q=a">CSS Font Name - HTML escaped</a> -
+      The parameter is echoed as a font value in a STYLE tag positioned into
+      the HEAD. Font name is particularly interesting because many sanitizers
+      do not behave correctly when parsing it.
+    <li>
+      <a href="/escape/serverside/encodeUrl/css_style_font_value?q=a">CSS Font Name - URL escaped</a> -
+      The parameter is echoed as a font value in a STYLE tag positioned into
+      the HEAD. Font name is particularly interesting because many sanitizers
+      do not behave correctly when parsing it.
+    </li>
+  </ul>
+</div>
+
+
+<h2>JS context</h2>
+<div class="test">
+  <p> XSS that can occur inside a SCRIPT block. </p>
+  <ul>
+    <li>
+      <a href="/escape/serverside/escapeHtml/js_assignment?q=a">Javascript unquoted assignment - HTML escaped</a> -
+      Assigns the parameter value to an unquoted js assignment, i.e. var foo = %q;
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/js_assignment?q=a">Javascript unquoted assignment - URL escaped</a> -
+      Assigns the parameter value to an unquoted js assignment, i.e. var foo = %q;
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/js_eval?q=a">Javascript eval - HTML escaped</a> -
+      Pipes the parameter into an eval, i.e. eval(%q);
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/js_eval?q=a">Javascript eval - URL escaped</a> -
+      Pipes the parameter into an eval, i.e. eval(%q);
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/js_quoted_string?q=a">Javascript quoted string - HTML escaped</a> -
+      Assigns the parameter value to an quoted js assignment, i.e. var foo = "%q";
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/js_quoted_string?q=a">Javascript quoted string - URL escaped</a> -
+      Assigns the parameter value to an quoted js assignment, i.e. var foo = "%q";
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/js_singlequoted_string?q=a">Javascript single quoted string - HTML escaped</a> -
+      Assigns the parameter value to a single quoted js assignment, i.e. var foo = '%q';
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/js_singlequoted_string?q=a">Javascript single quoted string - URL escaped</a> -
+      Assigns the parameter value to a single quoted js assignment, i.e. var foo = '%q';
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/js_slashquoted_string?q=a">Javascript slash quoted string - HTML escaped</a> -
+      Assigns the parameter value to a single slash quoted js assignment, i.e. var foo = \%q\;
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/js_slashquoted_string?q=a">Javascript slash quoted string - URL escaped</a> -
+      Assigns the parameter value to a single slash quoted js assignment, i.e. var foo = \%q\;
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/js_comment?q=a">Javascript comment - HTML escaped</a> -
+      Inserts the parameter into a javascript comment, i.e. /* %q */
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/js_comment?q=a">Javascript comment - URL escaped</a> -
+      Inserts the parameter into a javascript comment, i.e. /* %q */
+    </li>
+  </ul>
+</div>
+
+
+<h2>URLs</h2>
+<div class="test">
+  <p> XSS that can occur due to unsanitized URLs in various contexts.</p>
+  <ul>
+    <li><a href="/escape/serverside/escapeHtml/attribute_script?q=a">Script SRC double quoted - HTML escaped</a> -
+      Assigns the parameter to a SCRIPT src between quotes.
+    </li>
+    <li><a href="/escape/serverside/encodeUrl/attribute_script?q=a">Script SRC double quoted - URL escaped</a> -
+      Assigns the parameter to a SCRIPT src between quotes.
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/href?q=a">URL - HREF - HTML escaped</a> -
+      Assigns the parameter to an HREF property of an A tag. Requires clicking to trigger.
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/href?q=a">URL - HREF - URL escaped</a> -
+      Assigns the parameter to an HREF property of an A tag. Requires clicking to trigger.
+    </li>
+    <li>
+      <a href="/escape/serverside/escapeHtml/css_import?q=a">URL - CSS - HTML escaped</a> -
+      Assigns the parameter to the SRC property of a STYLE tag in the HEAD.
+    </li>
+    <li>
+      <a href="/escape/serverside/encodeUrl/css_import?q=a">URL - CSS - URL escaped</a> -
+      Assigns the parameter to the SRC property of a STYLE tag in the HEAD.
+    </li>
+  </ul>
+</div>
+
+
+<h2>JS eval context</h2>
+<div class="test">
+  <p> XSS that can occur inside an eval inside a SCRIPT block. </p>
+  <ul>
+    <li><a href="/escape/js/escape?q=a">Eval payload after applying escape()</a></li>
+    <li><a href="/escape/js/encodeURIComponent?q=a">Eval payload after applying encodeURIComponent()</a></li>
+    <li><a href="/escape/js/html_escape?q=a">Eval payload after escaping &lt;, &amp; and &gt;()</a></li>
+  </ul>
+</div>
+
+</body>
+</html>

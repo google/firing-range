@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  version="2.5">
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+  <servlet>
+    <servlet-name>ReflectedParameter</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reflected.Parameter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReflectedParameter</servlet-name>
+    <url-pattern>/reflected/parameter/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>FilteredCharsets</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reflected.Charsets</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FilteredCharsets</servlet-name>
+    <url-pattern>/reflected/filteredcharsets/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>FilteredStrings</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reflected.Substrings</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FilteredStrings</servlet-name>
+    <url-pattern>/reflected/filteredstrings/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ReflectedUrl</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reflected.Url</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReflectedUrl</servlet-name>
+    <url-pattern>/reflected/url/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>RemoteIncludeHash</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.remoteinclude.Hash</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoteIncludeHash</servlet-name>
+    <url-pattern>/remoteinclude/hash</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>RemoteIncludeParameter</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.remoteinclude.Parameter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoteIncludeParameter</servlet-name>
+    <url-pattern>/remoteinclude/parameter</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>EscapeServerSide</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.escape.ServersideEscape</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EscapeServerSide</servlet-name>
+    <url-pattern>/escape/serverside/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>EscapeJs</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.escape.JsEscape</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EscapeJs</servlet-name>
+    <url-pattern>/escape/js/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CorsDynamicAllowOrigin</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.cors.DynamicAllowOrigin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CorsDynamicAllowOrigin</servlet-name>
+    <url-pattern>/cors/alloworigin/dynamicAllowOrigin</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ExpressionBased</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.tags.Expression</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExpressionBased</servlet-name>
+    <url-pattern>/tags/expression</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>Multiline</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.tags.Multiline</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Multiline</servlet-name>
+    <url-pattern>/tags/multiline</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>TagBased</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.tags.TagServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TagBased</servlet-name>
+    <url-pattern>/tags/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ContentSniffingJson</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reflected.ContentSniffing</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ContentSniffingJson</servlet-name>
+    <url-pattern>/reflected/contentsniffing/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CallbackJson</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reflected.JsonContentSniffingCallback</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CallbackJson</servlet-name>
+    <url-pattern>/reflected/jsoncallback</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>Address</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.address.Address</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Address</servlet-name>
+    <url-pattern>/address/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>RedirectParameter</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.redirect.Parameter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RedirectParameter</servlet-name>
+    <url-pattern>/redirect/parameter/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>Meta</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.redirect.Meta</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Meta</servlet-name>
+    <url-pattern>/redirect/meta</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ToxicDom</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.dom.ToxicDom</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ToxicDom</servlet-name>
+    <url-pattern>/dom/toxicdom/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>EventTriggering</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.dom.EventTriggering</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EventTriggering</servlet-name>
+    <url-pattern>/dom/eventtriggering/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>FlashInjection</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.flashinjection.FlashInjection</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FlashInjection</servlet-name>
+    <url-pattern>/flashinjection/*</url-pattern>
+  </servlet-mapping>
+</web-app>

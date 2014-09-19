@@ -1,0 +1,6 @@
+var postMessageHandler = function(msg) {
+  var content = JSON.parse(msg.data);
+  document.write('<scr' + 'ipt src="' + content.url +'"></scr' + 'ipt>');
+};
+
+window.addEventListener('message', postMessageHandler, false);
