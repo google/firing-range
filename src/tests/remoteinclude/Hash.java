@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Hash extends HttpServlet {
   private static final String BASE_TEMPLATE = "hash.tmpl";
-  
+
   @Override
   public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String baseTemplate = Templates.getTemplate(BASE_TEMPLATE, getClass());

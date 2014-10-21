@@ -15,12 +15,11 @@ import javax.servlet.http.HttpServletResponse;
  * that is the same of the origin one.
  */
 public class DynamicAllowOrigin extends HttpServlet {
+  
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String baseUrl = request.getScheme() + "://" + request.getServerName(); 
     String template = Templates.getTemplate("origin_to_itself.tmpl", getClass());
-    String appId = System.getProperty("com.google.appengine.application.id");
-    String version = System.getProperty("com.google.appengine.application.version");
-    String baseUrl = "//" + version + "." + appId + ".appspot.com/";
     template = template.replace("$BASEURL$", baseUrl);
     Responses.sendNormalPage(response, template);
   }

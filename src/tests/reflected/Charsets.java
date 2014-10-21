@@ -50,12 +50,6 @@ public class Charsets extends HttpServlet {
           return;
         }
         break;
-      case "AngularParenthesis":
-        if (containsChars(echoedParam, '<', '>')) {
-          Responses.sendError(response, "Invalid param.", 400);
-          return;
-        }
-        break;
       default:
         Responses.sendError(response, "Invalid charset.", 400);
         return;

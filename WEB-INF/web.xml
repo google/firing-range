@@ -181,4 +181,13 @@
     <servlet-name>FlashInjection</servlet-name>
     <url-pattern>/flashinjection/*</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>UniversalReverseClickjacking</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reverseclickjacking.UniversalReverseClickjacking</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UniversalReverseClickjacking</servlet-name>
+    <url-pattern>/reverseclickjacking/universalreverseclickjacking</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Parameter extends HttpServlet {
   private static final String ECHOED_PARAM = "q";
-  
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String echoedParam = Strings.nullToEmpty(request.getParameter(ECHOED_PARAM));
@@ -23,7 +23,7 @@ public class Parameter extends HttpServlet {
       Responses.sendError(response, "Invalid URL", 400);
     } else {
       String template = Templates.getTemplate(request, getClass());
-      Responses.sendXssed(response, Templates.replacePayload(template, echoedParam));  
+      Responses.sendXssed(response, Templates.replacePayload(template, echoedParam));
     }
   }
 }
