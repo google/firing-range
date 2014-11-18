@@ -36,7 +36,7 @@ public class Parameter extends HttpServlet {
     if (!echoedParam.startsWith("http")) {
       Responses.sendError(response, "Invalid URL", 400);
     } else {
-      String template = Templates.getTemplate(request, getClass());
+      String template = Templates.getTemplate("parameter.tmpl", getClass());
       Responses.sendXssed(response, Templates.replacePayload(template, echoedParam));
     }
   }
