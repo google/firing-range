@@ -1,20 +1,12 @@
-What is Firing Range?
--------------------
+#What is Firing Range?
 
 Firing Range is a test bed for web application security scanners,
-providing synthetic, wide coverage for an array of vulnerabilities
-It runs as an AppEngine application.
+providing synthetic, wide coverage for an array of vulnerabilities.
+
+It can be deployed as a Google App Engine application. A public instance is
+is running at [http://public-firing-range.appspot.com/](http://public-firing-range.appspot.com/).
 
 
-What vulns are included in the latest version?
--------------------
+#License information
 
-XSS (DOM, Reflected)
-Mixed Content
-CORS Issues
-
-
-License information
--------------------
-
-See the file "LICENSE".
+See the LICENSE file.
