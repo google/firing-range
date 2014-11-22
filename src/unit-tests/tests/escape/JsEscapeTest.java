@@ -44,7 +44,7 @@ public class JsEscapeTest {
   }
 
   @Test
-  public void doesNotOverEscapeSingleQuoetes() throws IOException {
+  public void doesNotOverEscapeSingleQuotes() throws IOException {
     when(request.getPathInfo()).thenReturn("escapeHtml/body");
     when(request.getParameter(JsEscape.ECHOED_PARAM)).thenReturn("foo\'");
     when(response.getWriter()).thenReturn(writer);
