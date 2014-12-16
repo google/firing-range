@@ -43,6 +43,7 @@ public class DynamicAllowOrigin extends HttpServlet {
     String origin = request.getHeader("Origin");
     if (origin != null) {
       response.setHeader("Access-Control-Allow-Origin", origin);
+      response.setHeader("Access-Control-Allow-Credentials", "true");
     }
     Responses.sendNormalPage(response, "Got it!");
   }

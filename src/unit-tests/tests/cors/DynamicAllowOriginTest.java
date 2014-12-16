@@ -18,6 +18,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -28,23 +29,35 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Tests for {@link DynamicAllowOrigin}.
- */
+/** Tests for {@link DynamicAllowOrigin}. */
 @RunWith(JUnit4.class)
 public final class DynamicAllowOriginTest {
   private DynamicAllowOrigin servlet = new DynamicAllowOrigin();
+  private HttpServletRequest request = mock(HttpServletRequest.class);
+  private HttpServletResponse response = mock(HttpServletResponse.class);
+
+  @Before
+  public void setupResponseMock() throws IOException {
+    when(response.getWriter()).thenReturn(mock(PrintWriter.class));
+  }
 
   @Test
   public void producesDynamicOriginHeader() throws IOException {
-    HttpServletRequest request = mock(HttpServletRequest.class);
-    HttpServletResponse response = mock(HttpServletResponse.class);
     String arbitraryOrigin = "veryLong.google.domain.google.com";
     when(request.getHeader("Origin")).thenReturn(arbitraryOrigin);
-    when(response.getWriter()).thenReturn(mock(PrintWriter.class));
 
     servlet.doPost(request, response);
 
     verify(response).setHeader("Access-Control-Allow-Origin", arbitraryOrigin);
+  }
+
+  @Test
+  public void includesAllowCredentialsHeader() throws IOException {
+    String arbitraryOrigin = "veryLong.google.domain.google.com";
+    when(request.getHeader("Origin")).thenReturn(arbitraryOrigin);
+
+    servlet.doPost(request, response);
+
+    verify(response).setHeader("Access-Control-Allow-Credentials", "true");
   }
 }
