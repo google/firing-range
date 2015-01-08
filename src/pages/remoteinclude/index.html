@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>Firing Range - Remote Inclusion </title>
-</head>
-<body>
-<ul>
-  <li><a href="/remoteinclude/parameter?q=http://google.com">Remote inclusion - Parameter</a></li>
-  <li><a href="/remoteinclude/hash#http://google.com">Remote inclusion - Hash</a></li>
-</ul>
-</body>
+  <head>
+  <title>Firing Range - Remote Inclusion </title>
+  </head>
+  <body>
+    <div class="intro">
+      <p>
+        Tests in this page allow an attacker to control the SRC attribute of a
+        script being imported in the page. 
+      </p>
+    </div>
+    <h2>Full URL</h2>
+    <p> This class of XSS simply takes a value from the parameter or hash
+      and sets it as SCRIT SRC.</p>
+    <div class="test">
+      <ul>
+        <li><a href="/remoteinclude/parameter?q=https://google.com">
+          Remote inclusion - Parameter</a>
+        </li>
+        <li><a href="/remoteinclude/hash#https://google.com">
+          Remote inclusion - Hash</a>
+        </li>
+      </ul>
+    </div>
+  </body>
 </html>
