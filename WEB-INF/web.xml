@@ -181,13 +181,31 @@
     <servlet-name>FlashInjection</servlet-name>
     <url-pattern>/flashinjection/*</url-pattern>
   </servlet-mapping>
-  
+
   <servlet>
-    <servlet-name>UniversalReverseClickjacking</servlet-name>
-    <servlet-class>com.google.testing.security.firingrange.tests.reverseclickjacking.UniversalReverseClickjacking</servlet-class>
+    <servlet-name>UniversalReverseClickjackingJsonpEndpoint</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reverseclickjacking.UniversalReverseClickjackingJsonpEndpoint</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>UniversalReverseClickjacking</servlet-name>
-    <url-pattern>/reverseclickjacking/universalreverseclickjacking</url-pattern>
+    <servlet-name>UniversalReverseClickjackingJsonpEndpoint</servlet-name>
+    <url-pattern>/reverseclickjacking/jsonpendpoint</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UniversalReverseClickjackingMultiPage</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reverseclickjacking.UniversalReverseClickjackingMultiPage</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UniversalReverseClickjackingMultiPage</servlet-name>
+    <url-pattern>/reverseclickjacking/multipage/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>UniversalReverseClickjackingSinglePage</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reverseclickjacking.UniversalReverseClickjackingSinglePage</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UniversalReverseClickjackingSinglePage</servlet-name>
+    <url-pattern>/reverseclickjacking/singlepage/*</url-pattern>
   </servlet-mapping>
 </web-app>
