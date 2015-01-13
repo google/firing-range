@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Universal Reverse Clickjacking - JS only, parameter in the fragment
+    </title>
+  </head>
+  <body>
+    <div id='result'></div>
+    <script>
+      var resultDiv = document.getElementById('result');
+
+      /**
+       * Callback function that receives data from the JSONP callback and
+       * prints a "stringified" representation of the response, only for
+       * human debugging.
+       */
+      function callbackFunc(data) {
+        resultDiv.innerText = 'JSONP data received: ' + JSON.stringify(data);
+      }
+
+      try {
+        // Retrieve the "q" parameter in the URL fragment
+        var q = decodeURIComponent(new RegExp('[?&#]q=([^&]*)')
+            .exec(location.hash)[1]);
+
+        // Validate it (prevents trivial XSS)
+        var allowedPattern = /^[a-zA-Z0-9][a-zA-Z0-9\._]*$/;
+        if (allowedPattern.test(q)) {
+          // The vulnerability arises because of this insecure concatenation
+          var url = '/reverseclickjacking/jsonpendpoint?q=' + q
+              + '&callback=callbackFunc';
+
+          /* Create the <script> tag that executes the JS code returned by
+           * the JSONP endpoint. */
+          document.write("<scr" + "ipt src='" + url + "'></scr" + "ipt>");
+        }
+      } catch(e) {
+        resultDiv.innerText = 'Please specify a q parameter in the fragment.';
+      }
+    </script>
+  </body>
+</html>

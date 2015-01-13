@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Universal Reverse Clickjacking - single page, parameter in the query
+    </title>
+  </head>
+  <body>
+    <div>
+      <button id='universal_reverse_clickjacking_action' onclick='alert(42)'>
+      Button with side effects
+      </button>
+    </div>
+    <div id='explanation'>
+      <p>This page emulates vulnerable Javascript code that URI-decodes 
+        untrusted input and blindly uses it to build the URL of the call to 
+        the JSONP endpoint, and a button with side effects (in this case, it 
+        triggers an alert when clicked).</p>
+    </div>
+    <script src='/reverseclickjacking/jsonpendpoint?q=%%PAYLOAD%%&callback=callbackFunc'>
+    </script>
+  </body>
+</html>

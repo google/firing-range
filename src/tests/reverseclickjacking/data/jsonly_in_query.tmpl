@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Universal Reverse Clickjacking - JS only, parameter in the query
+    </title>
+  </head>
+  <body>
+    <div id='explanation'>
+      <p>This page emulates vulnerable Javascript code that URI-decodes 
+        untrusted input and blindly uses it to build the URL of the call to 
+        the JSONP endpoint.</p>
+    </div>
+    <script src='/reverseclickjacking/jsonpendpoint?q=%%PAYLOAD%%&callback=callbackFunc'>
+    </script>
+  </body>
+</html>
