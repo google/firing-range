@@ -14,6 +14,7 @@
 
 package com.google.testing.security.firingrange.tests.reverseclickjacking;
 
+import static com.google.common.net.UrlEscapers.urlFormParameterEscaper;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -36,7 +37,6 @@ public class UniversalReverseClickjackingSinglePage extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String vulnerableParameter = Strings.nullToEmpty(request.getParameter(VULNERABLE_PARAMETER));
     String parameterLocation, template;
 
     try {
@@ -47,6 +47,10 @@ public class UniversalReverseClickjackingSinglePage extends HttpServlet {
           400);
       return;
     }
+
+    String vulnerableParameter = Strings.nullToEmpty(request.getParameter(VULNERABLE_PARAMETER));
+    // Encode URL to prevent XSS
+    vulnerableParameter = urlFormParameterEscaper().escape(vulnerableParameter);
 
     switch (parameterLocation) {
       case "ParameterInQuery":

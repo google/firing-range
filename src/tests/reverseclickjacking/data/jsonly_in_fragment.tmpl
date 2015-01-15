@@ -33,7 +33,10 @@
 
           /* Create the <script> tag that executes the JS code returned by
            * the JSONP endpoint. */
-          document.write("<scr" + "ipt src='" + url + "'></scr" + "ipt>");
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.src = url;
+          document.body.appendChild(s);
         }
       } catch(e) {
         resultDiv.innerText = 'Please specify a q parameter in the fragment.';

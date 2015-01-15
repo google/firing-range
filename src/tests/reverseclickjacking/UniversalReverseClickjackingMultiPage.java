@@ -14,6 +14,8 @@
 
 package com.google.testing.security.firingrange.tests.reverseclickjacking;
 
+import static com.google.common.net.UrlEscapers.urlFormParameterEscaper;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -37,19 +39,22 @@ public class UniversalReverseClickjackingMultiPage extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String vulnerableParameter = Strings.nullToEmpty(request.getParameter(VULNERABLE_PARAMETER));
     String headerOptions, parameterLocation, template;
 
     try {
       parameterLocation = Splitter.on('/').splitToList(request.getPathInfo()).get(2);
       headerOptions = Splitter.on('/').splitToList(request.getPathInfo()).get(3);
     } catch (IndexOutOfBoundsException e) {
-      // Either the parameter location or the X-Frame-Options header is not set.
+      // Either the parameter location or the X-Frame-Options is not set.
       Responses.sendError(response,
           "Please specify the location of the vulnerable parameter and the preference for the"
           + " X-Frame-Option header.", 400);
       return;
     }
+
+    String vulnerableParameter = Strings.nullToEmpty(request.getParameter(VULNERABLE_PARAMETER));
+    // Encode URL to prevent XSS
+    vulnerableParameter = urlFormParameterEscaper().escape(vulnerableParameter);
 
     switch (parameterLocation) {
       case "ParameterInQuery":
