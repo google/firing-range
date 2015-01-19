@@ -66,7 +66,6 @@ public class ParameterTest {
     verify(response).setHeader(HttpHeaders.LOCATION, 
         "/a/b/c?" + queryString);
   }
- 
 
   @Test
   public void refusesJavascriptIfSoInstructed() throws IOException {

@@ -14,12 +14,13 @@
 
 package com.google.testing.security.firingrange.tests.redirect;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
-import com.google.common.net.Uri;
 import com.google.testing.security.firingrange.utils.Responses;
 import com.google.testing.security.firingrange.utils.Templates;
 
 import java.io.IOException;
+import java.net.URI;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,12 +30,23 @@ import javax.servlet.http.HttpServletResponse;
  * Handles reflected XSS on META redirect. Accepts an URL as an input.
  */
 public class Meta extends HttpServlet {
-  private static final String ECHOED_PARAM = "q";
-  
+  @VisibleForTesting
+  static final String ECHOED_PARAM = "q";
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String echoedParam = Strings.nullToEmpty(request.getParameter(ECHOED_PARAM));
-    Uri uri = Uri.parse(echoedParam);
+    if (echoedParam.isEmpty()) {
+      Responses.sendError(response, "Empty required parameter", 400);
+      return;
+    }
+    URI uri;
+    try {
+      uri = URI.create(echoedParam);
+    } catch (IllegalArgumentException e) {
+      Responses.sendError(response, "Invalid echoed parameter", 400);
+      return;
+    }
     String template = Templates.getTemplate("meta.tmpl", this.getClass());
     Responses.sendXssed(response, Templates.replacePayload(template, uri.toString()));
   }
