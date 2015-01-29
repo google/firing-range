@@ -27,7 +27,7 @@
   <property name="http.port" value="8080"/>
 
   <!-- address for dev_appserver -->
-  <property name="http.ip" value="0.0.0.0"/>
+  <property name="http.ip" value="localhost"/>
 
   <!-- Name of log file to write logs to -->
   <property name="log.file" value="app.log"/>
