@@ -26,6 +26,9 @@
   <!-- HTTP port for dev_appserver -->
   <property name="http.port" value="8080"/>
 
+  <!-- address for dev_appserver -->
+  <property name="http.ip" value="0.0.0.0"/>
+
   <!-- Name of log file to write logs to -->
   <property name="log.file" value="app.log"/>
 
@@ -95,7 +98,7 @@
 
   <target name="runserver" depends="war"
           description="Run the dev_appserver">
-    <dev_appserver war="${war.dir}" port="${http.port}"/>
+    <dev_appserver war="${war.dir}" address="${http.ip}" port="${http.port}"/>
   </target>
 
   <target name="dev_appserver" depends="runserver"/>
@@ -103,7 +106,7 @@
   <target name="debug" depends="war" 
           description="Launches dev_appserver with remote debugging enabled">
     <echo message="Launching dev_appserver on Web port ${http.port}, Java remote debug port ${debug.port}"/>
-    <dev_appserver war="${war.dir}" port="${http.port}">
+    <dev_appserver war="${war.dir}" address="${http.ip}" port="${http.port}">
       <options>
         <arg value="--jvm_flag=-Xdebug"/>
         <arg value="--jvm_flag=-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=${debug.port}"/>
