@@ -70,7 +70,8 @@ public final class Responses {
       throws IOException {
     Preconditions.checkArgument(status > 300);
     response.setStatus(status);
-    response.getWriter().write(body);
+    response.setHeader(HttpHeaders.CONTENT_TYPE, "text/plain");
+    response.getWriter().write(Escaper.escapeHtml(body));
   }
 
   /**

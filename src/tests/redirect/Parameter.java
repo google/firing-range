@@ -1,5 +1,5 @@
 /*
- *Copyright 2014 Google Inc. All rights reserved.
+ * Copyright 2014 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -70,7 +70,7 @@ public class Parameter extends HttpServlet {
     if (param.startsWith("javascript")) {
       Responses.sendError(response, "Cannot redirect to javascript!", 400);
     } else {
-      Responses.sendRedirect(response, param);            
-    }    
+      Responses.sendRedirect(response, param);
+    }
   }
 }

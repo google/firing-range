@@ -50,13 +50,13 @@ public class Address extends HttpServlet {
         } else {
           Responses.sendError(response, "Malformed URL", 400);
         }
-      } catch (IllegalArgumentException e) {
+      } catch (IllegalArgumentException | IOException e) {
         Responses.sendError(response, e.getMessage(), 400);
       }
     }
   }
 
-  private String generateTemplate(String source, String sink) {
+  private String generateTemplate(String source, String sink) throws IOException {
     String sourcePath = "sources/" + source + ".tmpl";
     String sourceTemplate = Templates.getTemplate(sourcePath, Address.class);
     String sinkPath = "sinks/" + sink + ".tmpl";

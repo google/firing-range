@@ -55,13 +55,13 @@ public class ToxicDom extends HttpServlet {
       try {
         Responses.sendXssed(response, generateTemplate(
             pathInfo.split("/")[0], pathInfo.split("/")[1], pathInfo.split("/")[2]));
-      } catch (IllegalArgumentException e) {
+      } catch (IllegalArgumentException | IOException | ArrayIndexOutOfBoundsException e) {
         Responses.sendError(response, e.getMessage(), 400);
       }
     }
   }
 
-  private String generateAccesslessTemplate(String source, String sink) {
+  private String generateAccesslessTemplate(String source, String sink) throws IOException {
     String sourcePath = "sources/" + source + "/" + sink + ".tmpl";
     String payload = Templates.getTemplate(sourcePath, ToxicDom.class);
     
@@ -69,7 +69,8 @@ public class ToxicDom extends HttpServlet {
     return Templates.replacePayload(toxicTemplate, payload);
   }
 
-  private String generateTemplate(String source, String accessType, String sink) {
+  private String generateTemplate(String source, String accessType, String sink)
+      throws IOException {
     String sourcePath = "sources/" + source + "/" + accessType + ".tmpl";
     String sourceTemplate = Templates.getTemplate(sourcePath, ToxicDom.class);
     String sinkPath = "sinks/" + sink + ".tmpl";
@@ -78,5 +79,4 @@ public class ToxicDom extends HttpServlet {
     String toxicTemplate = Templates.getTemplate(TOXIC_TEMPLATE, ToxicDom.class);
     return Templates.replacePayload(toxicTemplate, sourceTemplate + sinkTemplate);
   }
-
 }
