@@ -22,6 +22,7 @@ import com.google.testing.security.firingrange.utils.Templates;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
  * Handles reflected XSS with serverside escaping of the payload.
  */
 public class ServersideEscape extends HttpServlet {
+  private static final Logger logger = Logger.getLogger(ServersideEscape.class.getCanonicalName());
   private static final String ECHOED_PARAM = "q";
 
   private String htmlEscape(String value) {
@@ -60,7 +62,15 @@ public class ServersideEscape extends HttpServlet {
       return;
     }
 
-    String template = Templates.getTemplate(path[1] + ".tmpl", getClass());
+    String template;
+    try {
+      template = Templates.getTemplate(path[1] + ".tmpl", getClass());
+    } catch (IOException e) {
+      logger.fine(e.toString());
+      Responses.sendError(response, e.getMessage(), 400);
+      return;
+    }
+
     if (path[0].equals("escapeHtml")) {
       Responses.sendXssed(response, Templates.replacePayload(template, htmlEscape(echoedParam)));
     } else if (path[0].equals("encodeUrl")) {

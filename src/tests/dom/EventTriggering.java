@@ -50,15 +50,17 @@ public class EventTriggering extends HttpServlet {
       Responses.sendError(response, errorMsg, 400);
     } else {
       try {
-        Responses.sendXssed(response, generateTemplate(
-            pathInfo.split("/")[0], pathInfo.split("/")[1], pathInfo.split("/")[2]));
-      } catch (IllegalArgumentException e) {
+        String template = generateTemplate(
+            pathInfo.split("/")[0], pathInfo.split("/")[1], pathInfo.split("/")[2]);
+        Responses.sendXssed(response, template);
+      } catch (IllegalArgumentException | IOException e) {
         Responses.sendError(response, e.getMessage(), 400);
       }
     }
   }
 
-  private String generateTemplate(String source, String accessType, String sink) {
+  private String generateTemplate(String source, String accessType, String sink)
+      throws IOException {
     String sourcePath = "sources/" + source + "/" + accessType + ".tmpl";
     String sourceTemplate = Templates.getTemplate(sourcePath, EventTriggering.class);
     String sinkPath = "sinks/" + sink + ".tmpl";

@@ -43,10 +43,10 @@ public final class Templates {
 
   /**
    * Extract a template given an HTTP request. The last path component is the template.
-   * @throws IllegalArgumentException if it cannot find the template.
+   * @throws IOException if it cannot find the template.
    */
   public static String getTemplate(HttpServletRequest request, Class<? extends HttpServlet> clazz)
-      throws IllegalArgumentException {
+      throws IOException {
     String firstPathPart = Splitter.on('/').splitToList(request.getPathInfo()).get(1);
     String templateName = firstPathPart + ".tmpl";
     return getTemplate(templateName, clazz);
@@ -54,17 +54,17 @@ public final class Templates {
 
   /**
    * Extracts a template given the path relative to a {@code clazz}.
-   * @throws IllegalArgumentException if it cannot find the template.
+   * @throws IOException if it cannot find the template.
    */
   public static String getTemplate(String relativePath, Class<? extends HttpServlet> clazz) 
-      throws IllegalArgumentException {
+      throws IOException {
     Preconditions.checkArgument(!relativePath.contains(".."));
     try {
       URL resource = Resources.getResource(clazz, "data/" + relativePath);
       return templateToString(resource);
     } catch (IllegalArgumentException e) {
       logger.info("Cannot find template for " + relativePath);
-      throw new IllegalArgumentException(errorTemplate());
+      throw new IOException(errorTemplate());
     }
   }
 
