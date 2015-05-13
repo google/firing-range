@@ -89,6 +89,10 @@
         <include name="**/*.*" />
       </fileset>
     </copy>
+
+    <!-- copy index.html to /pages, workaround for now -->
+    <copy file="${war.dir}/WEB-INF/index.html" todir="${war.dir}/pages/"/>
+	
   </target>
 
   <target name="clean"
