@@ -1,4 +1,4 @@
-<!-- This is a Ant file for Google AppEngine project -->
+<!-- This is a Ant file for firing-range as a Google AppEngine project -->
 
 <project name="firing-range" default="war">
 
@@ -49,11 +49,11 @@
 
   <target name="getjars">
  		<mkdir dir="${war.dir}/WEB-INF/lib" />
-		<get src="http://central.maven.org/maven2/com/google/guava/guava/18.0/guava-18.0.jar" dest="${war.dir}/WEB-INF/lib"/>
-		<get src="http://central.maven.org/maven2/org/jsoup/jsoup/1.8.1/jsoup-1.8.1.jar" dest="${war.dir}/WEB-INF/lib"/>
-		<get src="http://central.maven.org/maven2/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19.jar" dest="${war.dir}/WEB-INF/lib"/>
-		<get src="http://central.maven.org/maven2/junit/junit/4.12/junit-4.12.jar" dest="${war.dir}/WEB-INF/lib" />
-		<get src="http://central.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.0/jsr305-3.0.0.jar" dest="${war.dir}/WEB-INF/lib"/>
+		<get src="https://repo1.maven.org/maven2/com/google/guava/guava/18.0/guava-18.0.jar" dest="${war.dir}/WEB-INF/lib"/>
+		<get src="https://repo1.maven.org/maven2/org/jsoup/jsoup/1.8.1/jsoup-1.8.1.jar" dest="${war.dir}/WEB-INF/lib"/>
+		<get src="https://repo1.maven.org/maven2/org/mockito/mockito-all/1.10.19/mockito-all-1.10.19.jar" dest="${war.dir}/WEB-INF/lib"/>
+		<get src="https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar" dest="${war.dir}/WEB-INF/lib" />
+		<get src="https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.0/jsr305-3.0.0.jar" dest="${war.dir}/WEB-INF/lib"/>
 	</target>
 
   <target name="compile" depends="clean, getjars"
