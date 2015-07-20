@@ -6,20 +6,41 @@
   <body>
     <div class="intro">
       <p>
-        Tests in this page allow an attacker to control the SRC attribute of a
-        script being imported in the page. 
+        Tests in this page allow an attacker to control the URL of an active
+        content being imported in the page. 
       </p>
     </div>
     <h2>Full URL</h2>
-    <p> This class of XSS simply takes a value from the parameter or hash
-      and sets it as SCRIT SRC.</p>
+    <p>
+      This class of tests simply takes the URL and uses it as the source of
+      the inclusion.
+    </p>
     <div class="test">
       <ul>
-        <li><a href="/remoteinclude/parameter?q=https://google.com">
-          Remote inclusion - Parameter</a>
+        <li>
+          <a href="/remoteinclude/parameter/script?q=https://google.com">
+            Remote inclusion - SCRIPT - Parameter
+          </a>
         </li>
-        <li><a href="/remoteinclude/hash#https://google.com">
-          Remote inclusion - Hash</a>
+        <li>
+          <a href="/remoteinclude/script_hash.html#https://google.com">
+            Remote inclusion - SCRIPT - Hash
+          </a>
+        </li>
+        <li>
+          <a href="/remoteinclude/parameter/object_raw?q=https://google.com">
+            Remote inclusion - OBJECT [Raw] - Parameter
+          </a>
+        </li>
+        <li>
+          <a href="/remoteinclude/parameter/object/application_x-shockwave-flash?q=https://google.com">
+            Remote inclusion - OBJECT [Flash] - Parameter
+          </a>
+        </li>
+        <li>
+          <a href="/remoteinclude/object_hash.html#https://google.com">
+            Remote inclusion - OBJECT [Raw] - Hash
+          </a>
         </li>
       </ul>
     </div>

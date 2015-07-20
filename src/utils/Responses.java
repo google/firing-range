@@ -50,16 +50,32 @@ public final class Responses {
   }
 
   /**
+   * Sends an HTML XSSed response with the given status. 
+   */
+  public static void sendXssed(HttpServletResponse response, String body, int status)
+      throws IOException {
+    sendXssed(response, body, "text/html; charset=utf-8", status);
+  }
+
+  /**
    * Sends an XSS response of a given type. 
    */
   public static void sendXssed(HttpServletResponse response, String body, String contentType)
       throws IOException {
+    sendXssed(response, body, contentType, 200);
+  }
+
+  /**
+   * Sends an XSS response of a given type. 
+   */
+  public static void sendXssed(HttpServletResponse response, String body, String contentType,
+      int status) throws IOException {
     response.setHeader(HttpHeaders.X_XSS_PROTECTION, "0");
     response.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
     response.setHeader(HttpHeaders.PRAGMA, "no-cache");
     response.setDateHeader(HttpHeaders.EXPIRES, 0);
     response.setHeader(HttpHeaders.CONTENT_TYPE, contentType);
-    response.setStatus(200);
+    response.setStatus(status);
     response.getWriter().write(body);
   }
 
@@ -72,6 +88,19 @@ public final class Responses {
     response.setStatus(status);
     response.setHeader(HttpHeaders.CONTENT_TYPE, "text/plain");
     response.getWriter().write(Escaper.escapeHtml(body));
+  }
+  
+  /**
+   * Sends a response with the content type text/javascript.
+   */
+  public static void sendJavaScript(HttpServletResponse response, String body)
+      throws IOException {
+    response.setHeader(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+    response.setHeader(HttpHeaders.PRAGMA, "no-cache");
+    response.setDateHeader(HttpHeaders.EXPIRES, 0);
+    response.setHeader(HttpHeaders.CONTENT_TYPE, "text/javascript");
+    response.setStatus(200);
+    response.getWriter().write(body);
   }
 
   /**

@@ -3,9 +3,9 @@
   <body>
     <script>
       var target = location.hash.substr(1);
-      var head= document.getElementsByTagName('head')[0];
-      var script= document.createElement('script');
-      script.type= 'text/javascript';
+      var head = document.getElementsByTagName('head')[0];
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
       script.src = target;
       head.appendChild(script);
     </script>

@@ -14,6 +14,7 @@
 
 package com.google.testing.security.firingrange.tests.remoteinclude;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.testing.security.firingrange.utils.Responses;
 import com.google.testing.security.firingrange.utils.Templates;
@@ -28,17 +29,30 @@ import javax.servlet.http.HttpServletResponse;
  * Handles remote inclusion XSS on parameters.
  */
 public class Parameter extends HttpServlet {
-  private static final String ECHOED_PARAM = "q";
+  static final String ECHOED_PARAM = "q";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String echoedParam = Strings.nullToEmpty(request.getParameter(ECHOED_PARAM));
-    if (!echoedParam.startsWith("http")) {
-      Responses.sendError(response, "Invalid URL", 400);
-    } else {
-      echoedParam = echoedParam.replace("\"", "&quot");
-      String template = Templates.getTemplate("parameter.tmpl", getClass());
-      Responses.sendXssed(response, Templates.replacePayload(template, echoedParam));
+    
+    if (!echoedParam.startsWith("https")) {
+      Responses.sendError(response, "Invalid URL, should be an absolute HTTPS URL", 400);
+      return;
     }
+
+    String template;
+    try {
+      template = Templates.getTemplate(request, getClass());
+      if (template.contains("$$TYPE$$")) {
+        String type = Splitter.on('/').splitToList(request.getPathInfo()).get(2)
+            .replace("\"", "").replace("_", "/");
+        template = template.replace("$$TYPE$$", type);
+      }
+    } catch (Exception e) {
+      Responses.sendError(response, "Error finding template", 400);
+      return;
+    }
+    echoedParam = echoedParam.replace("\"", "&quot");
+    Responses.sendXssed(response, Templates.replacePayload(template, echoedParam));
   }
 }

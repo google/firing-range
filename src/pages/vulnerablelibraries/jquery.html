@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Firing Range - vulnerable libraries - JQuery</title>
+    <script src="https://code.jquery.com/jquery-1.8.1.js"></script>
+  </head>
+  <body>
+    <script>
+      function fail() {
+        document.getElementById('failurediv').innerHTML = 'Exploited';
+      }
+      $("element[attribute='<img onerror=fail() src=x>']");
+    </script>
+    <div id='failurediv'>
+      This DIV will host the result of an exploitation of http://bugs.jquery.com/ticket/11290. 
+    </div>
+  </body>
+</html>
