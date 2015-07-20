@@ -19,6 +19,7 @@ import com.google.testing.security.firingrange.utils.Responses;
 import com.google.testing.security.firingrange.utils.Templates;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +40,9 @@ import javax.servlet.http.HttpServletResponse;
 public class ToxicDom extends HttpServlet {
 
   private static final String TOXIC_TEMPLATE = "toxicdom.tmpl";
+  private static final String TOXIC_EXTERNAL_TEMPLATE = "toxicdomexternal.tmpl";
+  
+  private static final Pattern WORD_CHARS_ONLY = Pattern.compile("^\\w+$");
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -47,17 +51,24 @@ public class ToxicDom extends HttpServlet {
     if (CharMatcher.is('/').countIn(pathInfo) == 1) {
       Responses.sendXssed(response, generateAccesslessTemplate(
           pathInfo.split("/")[0], pathInfo.split("/")[1]));
-    } else if (CharMatcher.is('/').countIn(pathInfo) != 2) {
-      String errorMsg = String.format("Missing sink, not enough sinks or too many sinks :(."
-          + "Got %d, expected 2", CharMatcher.is('/').countIn(pathInfo));
-      Responses.sendError(response, errorMsg, 400);
-    } else {
+    } else if (CharMatcher.is('/').countIn(pathInfo) == 2) {
       try {
         Responses.sendXssed(response, generateTemplate(
             pathInfo.split("/")[0], pathInfo.split("/")[1], pathInfo.split("/")[2]));
       } catch (IllegalArgumentException | IOException | ArrayIndexOutOfBoundsException e) {
         Responses.sendError(response, e.getMessage(), 400);
       }
+    } else if (CharMatcher.is('/').countIn(pathInfo) == 3) {
+      try {
+        Responses.sendXssed(response, generateExternalTemplate(
+            pathInfo.split("/")[1], pathInfo.split("/")[2], pathInfo.split("/")[3]));
+      } catch (IllegalArgumentException | IOException | ArrayIndexOutOfBoundsException e) {
+        Responses.sendError(response, e.getMessage(), 400);
+      }
+    } else {
+      String errorMsg = String.format("Missing sink, not enough sinks or too many sinks :(."
+          + "Got %d, expected 2 or 3", CharMatcher.is('/').countIn(pathInfo));
+      Responses.sendError(response, errorMsg, 400);
     }
   }
 
@@ -78,5 +89,19 @@ public class ToxicDom extends HttpServlet {
 
     String toxicTemplate = Templates.getTemplate(TOXIC_TEMPLATE, ToxicDom.class);
     return Templates.replacePayload(toxicTemplate, sourceTemplate + sinkTemplate);
+  }
+
+  private String generateExternalTemplate(String source, String accessType, String sink)
+      throws IOException {
+
+    if (!WORD_CHARS_ONLY.matcher(source).matches()
+        || !WORD_CHARS_ONLY.matcher(accessType).matches()
+        || !WORD_CHARS_ONLY.matcher(sink).matches()) {
+      return "Invalid Input. Only word characters ([a-zA-Z0-9_]) are allowed.";
+    }
+
+    String toxicTemplate = Templates.getTemplate(TOXIC_EXTERNAL_TEMPLATE, ToxicDom.class);
+    return Templates.replacePayload(
+        toxicTemplate, "/dom/toxicdomscripts/" + source + "/" + accessType + "/" + sink);
   }
 }

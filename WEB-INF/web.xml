@@ -40,22 +40,13 @@
     <servlet-name>ReflectedUrl</servlet-name>
     <url-pattern>/reflected/url/*</url-pattern>
   </servlet-mapping>
-
-  <servlet>
-    <servlet-name>RemoteIncludeHash</servlet-name>
-    <servlet-class>com.google.testing.security.firingrange.tests.remoteinclude.Hash</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>RemoteIncludeHash</servlet-name>
-    <url-pattern>/remoteinclude/hash</url-pattern>
-  </servlet-mapping>
   <servlet>
     <servlet-name>RemoteIncludeParameter</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.remoteinclude.Parameter</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>RemoteIncludeParameter</servlet-name>
-    <url-pattern>/remoteinclude/parameter</url-pattern>
+    <url-pattern>/remoteinclude/parameter/*</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>EscapeServerSide</servlet-name>
@@ -153,6 +144,15 @@
   <servlet-mapping>
     <servlet-name>Meta</servlet-name>
     <url-pattern>/redirect/meta</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ToxicDomScripts</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.dom.ToxicDomScripts</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ToxicDomScripts</servlet-name>
+    <url-pattern>/dom/toxicdomscript/*</url-pattern>
   </servlet-mapping>
 
   <servlet>

@@ -14,11 +14,13 @@
 
 package com.google.testing.security.firingrange.tests.reflected;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.testing.security.firingrange.utils.Responses;
 import com.google.testing.security.firingrange.utils.Templates;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,6 +36,11 @@ public class Parameter extends HttpServlet {
   public void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String echoedParam = Strings.nullToEmpty(request.getParameter(ECHOED_PARAM));
     String template = Templates.getTemplate(request, getClass());
-    Responses.sendXssed(response, Templates.replacePayload(template, echoedParam));
+    int status = 200;
+    List<String> path = Splitter.on('/').splitToList(request.getPathInfo());
+    if (path.size() > 2) {  // Ok, we include status information.
+      status = Integer.parseInt(path.get(2));
+    }
+    Responses.sendXssed(response, Templates.replacePayload(template, echoedParam), status);
   }
 }

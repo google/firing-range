@@ -1,0 +1,12 @@
+<html>
+  <head><title>Remote include - URL seeded from the fragment</title></head>
+  <body>
+    <script>
+      var target = location.hash.substr(1);
+      var body = document.getElementsByTagName('body')[0];
+      var object = document.createElement('object');
+      object.data = target;
+      body.appendChild(object);
+    </script>
+  </body>
+</html>
