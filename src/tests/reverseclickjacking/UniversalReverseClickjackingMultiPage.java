@@ -14,8 +14,6 @@
 
 package com.google.testing.security.firingrange.tests.reverseclickjacking;
 
-import static com.google.common.net.UrlEscapers.urlFormParameterEscaper;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
@@ -24,6 +22,7 @@ import com.google.testing.security.firingrange.utils.Responses;
 import com.google.testing.security.firingrange.utils.Templates;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,47 +36,109 @@ public class UniversalReverseClickjackingMultiPage extends HttpServlet {
   @VisibleForTesting
   static final String VULNERABLE_PARAMETER = "q";
 
+  private enum ParameterLocation {
+    ParameterInQuery("jsonly_in_query.tmpl"),
+    ParameterInFragment("jsonly_in_fragment.tmpl");
+
+    String template;
+
+    ParameterLocation(String templatePath) {
+      template = templatePath;
+    }
+
+    String getTemplate() throws IOException {
+      return Templates.getTemplate(template, UniversalReverseClickjackingMultiPage.class);
+    }
+  }
+
+  private enum ParameterSink {
+    InCallback,
+    OtherParameter
+  }
+
+  private enum HeaderOptions {
+    WithXFO("DENY"),
+    WithoutXFO("ALLOWALL");
+
+    String directive;
+
+    HeaderOptions(String xfoDirective) {
+      directive = xfoDirective;
+    }
+
+    // Send the appropriate X-Frame-Options header
+    void sendXfoHeader(HttpServletResponse response) {
+      response.setHeader(HttpHeaders.X_FRAME_OPTIONS, directive);
+    }
+  }
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String headerOptions, parameterLocation, template;
+    // Get parameters in the path
+    List<String> parameters = Splitter.on('/').splitToList(request.getPathInfo());
 
+    if (parameters.size() < 3) {
+      Responses.sendError(
+          response,
+          "Please specify the location of the vulnerable parameter, its sink and the preference "
+          + "for the X-Frame-Option header. For example: "
+          + "/multipage/ParameterInQuery/InCallback/WithoutXFO/"
+          + "?" + VULNERABLE_PARAMETER + "=x",
+          400);
+      return;
+    }
+
+    String template;
+    ParameterLocation parameterLocation;
+    ParameterSink parameterSink;
     try {
-      parameterLocation = Splitter.on('/').splitToList(request.getPathInfo()).get(2);
-      headerOptions = Splitter.on('/').splitToList(request.getPathInfo()).get(3);
-    } catch (IndexOutOfBoundsException e) {
-      // Either the parameter location or the X-Frame-Options is not set.
-      Responses.sendError(response,
-          "Please specify the location of the vulnerable parameter and the preference for the"
-          + " X-Frame-Option header.", 400);
+      parameterLocation = ParameterLocation.valueOf(parameters.get(1));
+      parameterSink = ParameterSink.valueOf(parameters.get(2));
+      HeaderOptions.valueOf(parameters.get(3)).sendXfoHeader(response);
+      template = parameterLocation.getTemplate();
+    } catch (IllegalArgumentException e) {
+      Responses.sendError(
+          response,
+          "Invalid location of the vulnerable parameter, invalid sink or preference for the "
+          + "X-Frame-Option header. For example: /multipage/ParameterInQuery/InCallback/WithoutXFO/"
+          + "?" + VULNERABLE_PARAMETER + "=x",
+          400);
+      return;
+    } catch (IOException e) {
+      Responses.sendError(response, "Unable to load template.", 400);
       return;
     }
 
     String vulnerableParameter = Strings.nullToEmpty(request.getParameter(VULNERABLE_PARAMETER));
-    // Encode URL to prevent XSS
-    vulnerableParameter = urlFormParameterEscaper().escape(vulnerableParameter);
+    // Strip quotes to "prevent" traditional XSS, but be vulnerable to parameter pollution
+    vulnerableParameter = vulnerableParameter.replace("\"", "").replace("'", "");
 
     switch (parameterLocation) {
-      case "ParameterInQuery":
-        template = Templates.getTemplate("jsonly_in_query.tmpl", getClass());
-        template = Templates.replacePayload(template, vulnerableParameter);
+      case ParameterInQuery:
+        switch (parameterSink) {
+          case InCallback:
+            // Reflect the user-provided parameter directly in the callback
+            template = template.replace("%%CALLBACK%%", vulnerableParameter);
+            // Leave the "other parameter" empty
+            template = template.replace("%%OTHER_PARAMETER%%", "");
+            break;
+          case OtherParameter:
+            // Use a generic callback
+            template = template.replace("%%CALLBACK%%", "callbackFunc");
+            // Reflect user-provided parameter directly in the "other parameter"
+            template = template.replace("%%OTHER_PARAMETER%%", vulnerableParameter);
+        }
         break;
-      case "ParameterInFragment":
-        template = Templates.getTemplate("jsonly_in_fragment.tmpl", getClass());
-        break;
-      default:
-        Responses.sendError(response, "Invalid location of the vulnerable parameter.", 400);
-        return;
-    }
-
-    switch (headerOptions) {
-      case "WithXFO":
-        response.setHeader(HttpHeaders.X_FRAME_OPTIONS, "DENY");
-        break;
-      case "WithoutXFO":
-        break;
-      default:
-        Responses.sendError(response, "Invalid preference for the X-Frame-Option header.", 400);
-        return;
+      case ParameterInFragment:
+        switch (parameterSink) {
+          case InCallback:
+            // Reflect the user-provided parameter directly in the callback
+            template = template.replace("%%CALLBACK%%", "' + q + '");
+            break;
+          case OtherParameter:
+            // Use a generic callback
+            template = template.replace("%%CALLBACK%%", "callbackFunc");
+        }
     }
 
     Responses.sendXssed(response, template);

@@ -1,6 +1,8 @@
 package com.google.testing.security.firingrange.tests.reverseclickjacking;
 
+import static org.mockito.Mockito.contains;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,8 +38,8 @@ public class UniversalReverseClickjackingJsonpEndpointTest {
 
   @Test
   public void returnsCallback() throws IOException {
-    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM)).thenReturn(
-        "FOO");
+    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM))
+        .thenReturn("FOO");
     new UniversalReverseClickjackingJsonpEndpoint().doGet(request, response);
     verify(response).setStatus(200);
     verify(response).setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
@@ -46,18 +48,22 @@ public class UniversalReverseClickjackingJsonpEndpointTest {
 
   @Test
   public void refusesXssInjection() throws IOException {
-    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM)).thenReturn(
-        "<foo>");
+    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM))
+        .thenReturn("<foo>");
     new UniversalReverseClickjackingJsonpEndpoint().doGet(request, response);
     verify(response).setStatus(400);
+    // Verify that we also don't write broken callbacks
+    verify(writer, never()).write(contains("/**/<foo>("));
   }
 
   @Test
   public void refusesEmptyCallback() throws IOException {
-    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM)).thenReturn(
-        "");
+    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM))
+        .thenReturn("");
     new UniversalReverseClickjackingJsonpEndpoint().doGet(request, response);
     verify(response).setStatus(400);
+    // Verify that we also don't write broken callbacks
+    verify(writer, never()).write(contains("/**/("));
   }
 
   @Test
@@ -65,17 +71,19 @@ public class UniversalReverseClickjackingJsonpEndpointTest {
     String callback =
         Strings.repeat("a", UniversalReverseClickjackingJsonpEndpoint.MAX_CALLBACK_LENGTH);
 
-    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM)).thenReturn(
-        callback);
+    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM))
+        .thenReturn(callback);
     new UniversalReverseClickjackingJsonpEndpoint().doGet(request, response);
     verify(response).setStatus(200);
     verify(response).setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
     verify(writer).write("/**/" + callback + "({'foobar':'foo'});");
 
-    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM)).thenReturn(
-        callback + "a");
+    when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM))
+        .thenReturn(callback + "a");
     new UniversalReverseClickjackingJsonpEndpoint().doGet(request, response);
     verify(response).setStatus(400);
+    // Verify that we also don't write overlong callbacks
+    verify(writer, never()).write(contains("/**/" + callback + "a("));
   }
 
   @Test
@@ -84,11 +92,13 @@ public class UniversalReverseClickjackingJsonpEndpointTest {
         ImmutableSet.of(".", "-", "_", ".invalid", "-invalid", "_invalid");
 
     for (String callback : invalidCallbacks) {
-      when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM)).thenReturn(
-          callback);
+      when(request.getParameter(UniversalReverseClickjackingJsonpEndpoint.ECHOED_PARAM))
+          .thenReturn(callback);
       new UniversalReverseClickjackingJsonpEndpoint().doGet(request, response);
     }
 
     verify(response, times(invalidCallbacks.size())).setStatus(400);
+    // Verify that we also don't write invalid callbacks
+    verify(writer, never()).write(contains("/**/"));
   }
 }
