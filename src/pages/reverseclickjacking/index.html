@@ -1,74 +1,146 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Firing Range - Universal ClickJacking</title>
-  </head>
-  <body>
-    <h1>Universal ClickJacking</h1>
-    <div class="intro">
-      <p>This page collects <b>Universal ClickJacking</b> vulnerabilities.</p>
-      <p>A <b>Universal ClickJacking</b> vulnerability arises when a JSONP <i>callback</i> parameter
-        (i.e. a user-controlled parameter reflected in a JS context) is controllable by an attacker
-        by passing something like <code>%26callback=a%23</code> (the final # discards any other
-        character that follows) to a routine that builds the JSONP call in an insecure way
-        (for instance, using string concatenation).</p>
-      <p>This grants an attacker the ability to execute javascript code in the context of the page,
-        thus performing actions with side effects, such as clicking buttons and submitting forms,
-        on the same page or on different pages in the same origin, using frames or popups.</p>
-      <p>If the JSONP endpoint is restrictive in terms of allowed charset for the callback
-        this vulnerability does not become a full XSS, since a useful XSS vector would contain
-        forbidden characters.</p>
-    </div>
+<head>
+  <title>Firing Range - Universal ClickJacking</title>
+</head>
 
-    <h2>Single-page Reverse Clickjacking</h2>
-    <ul>
-      <li>
-        <a href="/reverseclickjacking/singlepage/ParameterInQuery/?q=foo">
-          Page with vulnerable JS and actionable element (parameter in the query)
-        </a> - This is one page with some Javascript code that calls a JSONP endpoint
-        using user input
-      <code>&lt;foo src="%q"&gt;</code>
-      </li>
-      <li>
-        <a href="/reverseclickjacking/singlepage/ParameterInFragment/#q=foo">
-        Page with vulnerable JS and actionable element (parameter in the fragment)
-        </a>
-      </li>
-    </ul>
+<body>
+  <h1>Universal ClickJacking</h1>
 
-    <h2>Multi-page Reverse Clickjacking</h2>
-    <p>In these tests the vulnerable JS snippet is placed in a page with no actionable DOM object:
-      in this case, exploitation can be achieved by interacting with other pages in the same
-      domain.</p>
-    <ul>
-      <li>
-        <a href="/reverseclickjacking/multipage/ParameterInQuery/WithoutXFO/?q=foo">
-        Triggering an action on a different page (with frames, parameter in the query)</a> - this
-        scenario can be mitigated by setting the <code>X-Frames-Options</code> header to
-        <code>DENY</code>, or, in some cases, also <code>SAMEORIGIN</code>, but this page allows
-        framing.
-      </li>
-      <li>
-        <a href="/reverseclickjacking/multipage/ParameterInFragment/WithoutXFO/#q=foo">
-        Triggering an action on a different page (with frames, parameter in the fragment)</a> - this
-        scenario can be mitigated by setting the <code>X-Frames-Options</code> header to
-        <code>DENY</code>, or, in some cases, also <code>SAMEORIGIN</code>, but this page allows
-        framing.
-      </li>
-      <li>
-        <a href="/reverseclickjacking/multipage/ParameterInQuery/WithXFO/?q=foo">
-          Triggering an action on a different page (with popups, parameter in the query)</a> -
-        this also works if a restrictive <code>X-Frames-Options</code> header is set, but
-        popup blockers in browsers might prevent this attack vector from working. This page does
-        not allow framing.
-      </li>
-      <li>
-        <a href="/reverseclickjacking/multipage/ParameterInFragment/WithXFO/#q=foo">
-          Triggering an action on a different page (with popups, parameter in the fragment)</a> -
-        this also works if a restrictive <code>X-Frames-Options</code> header is set, but
-        popup blockers in browsers might prevent this attack vector from working. This page does
-        not allow framing.
-      </li>
-    </ul>
-  </body>
+  <div class="intro">
+    <p>This page collects <b>Universal ClickJacking</b> vulnerabilities.</p>
+
+    <p>A <b>Universal ClickJacking</b> vulnerability arises when a JSONP
+    <i>callback</i> parameter (i.e. a user-controlled parameter reflected in a
+    JS context) is controllable by an attacker by passing something like
+    <code>element.click</code> if the parameter ends up in the JSONP callback
+    directly or something like <code>%26callback%3Delement.click%23</code> (the
+    final # discards any other character that follows) to a routine that builds
+    the JSONP call in an insecure way (for instance, using string concatenation
+    and putting the user-provided input in another parameter but still allowing
+    parameter pollution).</p>
+
+    <p>This grants an attacker the ability to execute javascript code in the
+    context of the page, thus performing actions with side effects, such as
+    clicking buttons and submitting forms, on the same page or on different
+    pages in the same origin, using frames or popups.</p>
+
+    <p>If the JSONP endpoint is restrictive in terms of allowed charset for the
+    callback this vulnerability does not become a full XSS, since a useful XSS
+    vector would contain forbidden characters.</p>
+  </div>
+
+  <h2>Single-page Reverse Clickjacking</h2>
+
+  <ul>
+    <li>
+      <a href=
+      "/reverseclickjacking/singlepage/ParameterInQuery/InCallback/?q=urc_button.click">
+      Page with vulnerable JS and actionable element (parameter in the query,
+      reflected in the callback directly)</a> - the user-provided input ends up
+      in the JSONP callback directly ( <code>&lt;script
+      src="/jsonp?callback=%q"&gt;</code> ).
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/singlepage/ParameterInQuery/OtherParameter/?q=%26callback%3Durc_button.click%23">
+      Page with vulnerable JS and actionable element (parameter in the query,
+      reflected in another parameter of the JSONP endpoint)</a> - the
+      user-provided input ends up in another parameter, but parameter pollution
+      is still possible ( <code>&lt;script
+      src="/jsonp?callback=callbackFunc&amp;other=%q"&gt;</code> ).
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/singlepage/ParameterInFragment/InCallback/#q=urc_button.click">
+      Page with vulnerable JS and actionable element (parameter in the
+      fragment, reflected in the callback directly)</a>
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/singlepage/ParameterInFragment/OtherParameter/#q=%26callback%3Durc_button.click%23">
+      Page with vulnerable JS and actionable element (parameter in the
+      fragment, reflected in another parameter of the JSONP endpoint)</a>
+    </li>
+  </ul>
+
+  <h2>Multi-page Reverse Clickjacking</h2>
+
+  <p>In these tests the vulnerable JS snippet is placed in a page with no
+  actionable DOM object: in this case, exploitation can be achieved by
+  interacting with other pages in the same domain.</p>
+
+  <ul>
+    <li>
+      <a href=
+      "/reverseclickjacking/multipage/ParameterInQuery/InCallback/WithoutXFO/?q=foo">
+      Triggering an action on a different page (with frames, parameter in the
+      query and reflected in the callback directly)</a> - this scenario can be
+      mitigated by setting the <code>X-Frame-Options</code> header to
+      <code>DENY</code> , or, in some cases, also <code>SAMEORIGIN</code> , but
+      this page allows framing.
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/multipage/ParameterInQuery/OtherParameter/WithoutXFO/?q=%26callback%3Dfoo%23">
+      Triggering an action on a different page (with frames, parameter in the
+      query and reflected in another parameter of the JSONP endpoint)</a>
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/multipage/ParameterInFragment/InCallback/WithoutXFO/#q=foo">
+      Triggering an action on a different page (with frames, parameter in the
+      fragment and reflected in the callback directly)</a> - this scenario can
+      be mitigated by setting the <code>X-Frame-Options</code> header to
+      <code>DENY</code> , or, in some cases, also <code>SAMEORIGIN</code> , but
+      this page allows framing.
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/multipage/ParameterInFragment/OtherParameter/WithoutXFO/#q=%26callback%3Dfoo%23">
+      Triggering an action on a different page (with frames, parameter in the
+      fragment and reflected in another parameter of the JSONP endpoint)</a>
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/multipage/ParameterInQuery/InCallback/WithXFO/?q=foo">
+      Triggering an action on a different page (with popups, parameter in the
+      query and reflected in the callback directly)</a> - this also works if a
+      restrictive <code>X-Frame-Options</code> header is set, but popup
+      blockers in browsers might prevent this attack vector from working. This
+      page does not allow framing.
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/multipage/ParameterInQuery/OtherParameter/WithXFO/?q=%26callback%3Dfoo%23">
+      Triggering an action on a different page (with popups, parameter in the
+      query and reflected in another parameter of the JSONP endpoint)</a>
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/multipage/ParameterInFragment/InCallback/WithXFO/#q=foo">
+      Triggering an action on a different page (with popups, parameter in the
+      fragment and reflected in the callback directly)</a> - this also works if
+      a restrictive <code>X-Frame-Options</code> header is set, but popup
+      blockers in browsers might prevent this attack vector from working. This
+      page does not allow framing.
+    </li>
+
+    <li>
+      <a href=
+      "/reverseclickjacking/multipage/ParameterInFragment/OtherParameter/WithXFO/#q=%26callback%3Dfoo%23">
+      Triggering an action on a different page (with popups, parameter in the
+      fragment and reflected in another parameter of the JSONP endpoint)</a>
+    </li>
+  </ul>
+</body>
 </html>
