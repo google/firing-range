@@ -5,6 +5,5 @@ setTimeout(function() {
   trigger(localStorage.badValue); // Using the async trigger.
 
   // Clean up the localStorage to avoid causing side-effect on subsequent tests.
-  delete window.localStorage;
   localStorage.clear();
 }, 10)

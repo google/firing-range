@@ -1,5 +1,4 @@
 var payload = localStorage.getItem('badValue'); // Using sync trigger.
 
 // Clean up the localStorage to avoid causing side-effect on subsequent tests.
-delete window.localStorage;
 localStorage.clear();
