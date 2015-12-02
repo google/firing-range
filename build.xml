@@ -37,9 +37,22 @@
 
   <property name="war.dir" location="war"/>
 
+  <path id="alljars">
+    <fileset dir="${war.dir}/WEB-INF/lib">
+      <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${appengine.sdk}/lib/shared">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <path id="compiledclasses">
+    <pathelement location="${war.dir}/WEB-INF/classes/"/>
+  </path>
+
   <target name="war" depends="enhance" 
           description="Assemble the application directory">
-    <enhance_war war="${war.dir}"/>
+    <war warfile="firingrange.war" webxml="WEB-INF/web.xml"/>
   </target>
 
   <target name="enhance" depends="compile"
@@ -60,18 +73,16 @@
           description="Compile the application servlet code">
     <mkdir dir="${war.dir}/WEB-INF/classes"/>
     <javac srcdir="src" destdir="${war.dir}/WEB-INF/classes">
-      <classpath>
-        <fileset dir="${war.dir}/WEB-INF/lib">
-          <include name="*.jar"/>
-        </fileset>
-        <fileset dir="${appengine.sdk}/lib/shared">
-          <include name="*.jar"/>
-        </fileset>
-      </classpath>
+      <classpath refid="alljars"/>
     </javac>
     <!-- copy data folders -->
     <copy todir="${war.dir}/WEB-INF/classes/com/google/testing/security/firingrange/tests/">
       <fileset dir="src/tests">
+        <exclude name="**/*.java" />
+      </fileset>
+    </copy>
+    <copy todir="${war.dir}/WEB-INF/classes/com/google/testing/security/firingrange/utils/">
+      <fileset dir="src/utils">
         <exclude name="**/*.java" />
       </fileset>
     </copy>
@@ -93,6 +104,18 @@
     <!-- copy index.html to /pages, workaround for now -->
     <copy file="${war.dir}/WEB-INF/index.html" todir="${war.dir}/pages/"/>
 	
+  </target>
+
+  <target name="test" depends="compile">
+    <junit printsummary="yes" haltonfailure="yes">
+      <classpath>
+        <path refid="alljars"/>
+        <path refid="compiledclasses"/>
+      </classpath>
+      <batchtest fork="no">
+        <fileset dir="${war.dir}/WEB-INF/classes/" includes="**/*Test.class"/>
+      </batchtest>
+    </junit>
   </target>
 
   <target name="clean"
