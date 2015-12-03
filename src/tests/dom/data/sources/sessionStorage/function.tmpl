@@ -1,5 +1,4 @@
 var payload = sessionStorage.getItem('badValue'); // Using sync trigger.
 
 // Clean up the sessionStorage to avoid side-effects on subsequent tests.
-delete window.sessionStorage;
 sessionStorage.clear();
