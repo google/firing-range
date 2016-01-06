@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Firing Range - Universal ClickJacking</title>
+  <title>Firing Range - Universal Reverse ClickJacking / SOME</title>
 </head>
 
 <body>
-  <h1>Universal ClickJacking</h1>
+  <h1>Universal Reverse ClickJacking / SOME</h1>
 
   <div class="intro">
-    <p>This page collects <b>Universal ClickJacking</b> vulnerabilities.</p>
+    <p>This page collects <b>Universal Reverse ClickJacking</b> (also sometimes called
+      <b>Same Origin Method Execution</b> or <b>SOME</b>) vulnerabilities.</p>
 
-    <p>A <b>Universal ClickJacking</b> vulnerability arises when a JSONP
+    <p>A <b>Universal Reverse ClickJacking</b> vulnerability arises when a JSONP
     <i>callback</i> parameter (i.e. a user-controlled parameter reflected in a
     JS context) is controllable by an attacker by passing something like
     <code>element.click</code> if the parameter ends up in the JSONP callback
@@ -30,7 +31,7 @@
     vector would contain forbidden characters.</p>
   </div>
 
-  <h2>Single-page Reverse Clickjacking</h2>
+  <h2>Single-page Universal Reverse Clickjacking</h2>
 
   <ul>
     <li>
@@ -67,7 +68,7 @@
     </li>
   </ul>
 
-  <h2>Multi-page Reverse Clickjacking</h2>
+  <h2>Multi-page Universal Reverse Clickjacking</h2>
 
   <p>In these tests the vulnerable JS snippet is placed in a page with no
   actionable DOM object: in this case, exploitation can be achieved by
