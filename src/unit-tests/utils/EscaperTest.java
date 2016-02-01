@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Google Inc. All rights reserved.
+ * Copyright 2016 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -16,27 +16,36 @@ package com.google.testing.security.firingrange.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 /**
- * Tests for {@link Templates}.
+ * Tests for {@link Escaper}.
  */
 @RunWith(JUnit4.class)
-public class TemplatesTest {
+public class EscaperTest {
 
-  @Test
-  public void canOpenErrorTemplate() {
-    assertFalse(Templates.errorTemplate().isEmpty());
+  @Test public void escapesQuotes() {
+    String in = "foo\"";
+    String out = Escaper.EscapeMode.DOUBLE_QUOTED_ATTRIBUTE.escape(in);
+    assertNotEquals(in, out);
+    assertFalse(out.contains("\""));
+    
+    in = "foo'";
+    out = Escaper.EscapeMode.SINGLE_QUOTED_ATTRIBUTE.escape(in);
+    assertNotEquals(in, out);
+    assertFalse(out.contains("'"));
   }
 
-  @Test
-  public void replacesPayload() {
-    String template = "<faketemplate>" + Templates.PAYLOAD_PLACEHOLDER + "</faketemplate>";
-    String testPayload = "testPayload";
-    String expectedTemplate = "<faketemplate>" + testPayload + "</faketemplate>";
-    assertEquals(expectedTemplate, Templates.replacePayload(template, testPayload));
+  @Test public void escapesClosingTag() {
+    assertEquals("<foo&gt;", Escaper.escapesGreatherThan("<foo>"));
+  }
+
+  
+  @Test public void escapesHtml() {
+    assertEquals("&lt;foo&gt;", Escaper.escapeHtml("<foo>"));
   }
 }

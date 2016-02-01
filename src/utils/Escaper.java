@@ -19,11 +19,54 @@ package com.google.testing.security.firingrange.utils;
  */
 public final class Escaper {
 
+  /** Ways to escape a plaintext string in HTML. */
+  public enum EscapeMode {
+    // foo="bar"
+    DOUBLE_QUOTED_ATTRIBUTE,
+    // foo='bar'
+    SINGLE_QUOTED_ATTRIBUTE,
+    // foo=bar
+    UNQUOTED_ATTRIBUTE,
+    // HTML
+    HTML;
+
+    public final String escape(String rawString) {
+      switch(this) {
+        case DOUBLE_QUOTED_ATTRIBUTE:
+          return escapesDoubleQuotes(rawString);
+        case SINGLE_QUOTED_ATTRIBUTE:
+          return escapesSingleQuotes(rawString);
+        case UNQUOTED_ATTRIBUTE:
+          // Simply prevent closing the tag.
+          return escapesGreatherThan(rawString);
+        case HTML:
+          return escapeHtml(rawString);
+        default:
+          throw new IllegalStateException("Unknown escaping mode");
+      }
+    }
+  }
+
+  private Escaper() {}
+
+  /** HTML escapes double quotes. */
+  public static String escapesDoubleQuotes(String rawString) {
+    return rawString.replace("\"", "&quot;");
+  }
+
+  /** HTML escapes single quotes. */
+  public static String escapesSingleQuotes(String rawString) {
+    return rawString.replace("'", "&#39;");
+  }
+
+  /** HTML escapes > signs. */
+  public static String escapesGreatherThan(String rawString) {
+    return rawString.replace(">", "&gt;");
+  }
+
   /**
    * Escapes HTML special chars inside a string by replacing the char with its HTML entities
    * representation.
-   * @param rawString The string to escape.
-   * @return The escaped string.
    */
   public static String escapeHtml(String rawString) {
     return rawString.replace("'", "&#39;")

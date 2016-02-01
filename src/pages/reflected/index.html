@@ -38,27 +38,27 @@
       The parameter is echoed inside an HTML comment in the HTML BODY.
     </li>
     <li>
-      <a href="/reflected/parameter/tagname?q=a">Parameter - Tag name</a> - 
+      <a href="/reflected/parameter/tagname?q=a">Parameter - Tag name</a> -
       The parameter is used as a tag name, i.e. <code>&lt;%q&gt;</code>
     </li>
     <li>
-      <a href="/reflected/parameter/attribute_unquoted?q=a">Parameter - Attribute unquoted</a> - 
+      <a href="/reflected/parameter/attribute_unquoted?q=a">Parameter - Attribute unquoted</a> -
       The parameter is echoed in an HTML attribute, unquoted. i.e.
-      <code>&lt;foo src=%q&gt;</code>
+      <code>&lt;foo attribute=%q&gt;</code>
     </li>
     <li>
-      <a href="/reflected/parameter/attribute_singlequoted?q=a">Parameter - Attribute single quoted</a> - 
+      <a href="/reflected/parameter/attribute_singlequoted?q=a">Parameter - Attribute single quoted</a> -
       The parameter is echoed in an HTML attribute, single quoted. i.e.
-      <code>&ltfoo src='%q'&gt</code>
+      <code>&ltfoo attribute='%q'&gt</code>
     </li>
     <li>
-      <a href="/reflected/parameter/attribute_quoted?q=a">Parameter - Attribute double quoted</a> - 
+      <a href="/reflected/parameter/attribute_quoted?q=a">Parameter - Attribute double quoted</a> -
       The parameter is echoed in an HTML attribute, double quoted. i.e.
-      <code>&lt;foo src="%q"&gt;</code>
+      <code>&lt;foo attribute="%q"&gt;</code>
     </li>
     <li>
-      <a href="/reflected/parameter/attribute_name?q=a">Parameter - Attribute name</a> - 
-      The parameter is used as an attribute name, i.e. <code>&lt;foo %q=irrelevant&gt</code> 
+      <a href="/reflected/parameter/attribute_name?q=a">Parameter - Attribute name</a> -
+      The parameter is used as an attribute name, i.e. <code>&lt;foo %q=irrelevant&gt</code>
     </li>
   </ul>
 </div>
@@ -152,21 +152,25 @@
 
 <h2>HTML event handler JS context</h2>
 <div class="test">
-  <p> XSS that can occur inside eventhandler attribute of a HTML element. </P>
+  <p> XSS that can occur inside eventhandler attribute of a HTML element. <br>
+      Note that these payloads are escaped so that they break out of the handler.</P>
   <ul>
     <li>
-      <a href="/reflected/parameter/js_eventhandler_unquoted?q=a">Parameter - unquoted onclick</a> -
-      The parameter is echoed in an HTML event handler attribute, unquoted. i.e.
+      <a href="/reflected/escapedparameter/js_eventhandler_unquoted/UNQUOTED_ATTRIBUTE?q=a">
+        Parameter - unquoted onclick
+      </a> - The parameter is echoed in an HTML event handler attribute, unquoted. i.e.
       <code>&lt;div onclick=%q&gt;&lt;/div&gt;</code>
     </li>
     <li>
-      <a href="/reflected/parameter/js_eventhandler_quoted?q=a">Parameter - quoted onclick</a> -
-      The parameter is echoed in an HTML event handler attribute, double-quoted. i.e.
+      <a href="/reflected/escapedparameter/js_eventhandler_quoted/DOUBLE_QUOTED_ATTRIBUTE?q=a">
+        Parameter - quoted onclick
+      </a> - The parameter is echoed in an HTML event handler attribute, double-quoted. i.e.
       <code>&lt;div onclick="%q"&gt;&lt;/div&gt;</code>
     </li>
     <li>
-      <a href="/reflected/parameter/js_eventhandler_singlequoted?q=a">Parameter - singlequoted onclick</a> -
-      The parameter is echoed in an HTML event handler attribute, single-quoted. i.e.
+      <a href="/reflected/escapedparameter/js_eventhandler_singlequoted/SINGLE_QUOTED_ATTRIBUTE?q=a">
+        Parameter - singlequoted onclick
+      </a> - The parameter is echoed in an HTML event handler attribute, single-quoted. i.e.
       <code>&lt;div onclick='%q'&gt;&lt;/div&gt;</code>
     </li>
   </ul>
