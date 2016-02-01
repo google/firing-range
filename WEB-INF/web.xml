@@ -17,6 +17,14 @@
     <url-pattern>/reflected/parameter/*</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>EscapedParameter</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reflected.EscapedParameter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EscapedParameter</servlet-name>
+    <url-pattern>/reflected/escapedparameter/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>FilteredCharsets</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.reflected.Charsets</servlet-class>
   </servlet>
