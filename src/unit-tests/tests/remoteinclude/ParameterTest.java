@@ -25,21 +25,13 @@ public class ParameterTest {
 
   @Before
   public void setUpMocks() throws IOException {
-    when(response.getWriter()).thenReturn(mock(PrintWriter.class));    
+    when(response.getWriter()).thenReturn(mock(PrintWriter.class));
   }
 
   @Test
   public void failsOnInvalidType() throws IOException {
     when(request.getPathInfo()).thenReturn("/foobar");
     when(request.getParameter(Parameter.ECHOED_PARAM)).thenReturn("https://google.com");
-   new Parameter().doGet(request, response);
-   verify(response).setStatus(400);
-  }
-
-  @Test
-  public void failsOnInvalidParam() throws IOException {
-    when(request.getPathInfo()).thenReturn("/script");
-    when(request.getParameter(Parameter.ECHOED_PARAM)).thenReturn("foo");
    new Parameter().doGet(request, response);
    verify(response).setStatus(400);
   }
