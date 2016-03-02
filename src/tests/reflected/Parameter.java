@@ -39,7 +39,11 @@ public class Parameter extends HttpServlet {
     int status = 200;
     List<String> path = Splitter.on('/').splitToList(request.getPathInfo());
     if (path.size() > 2) {  // Ok, we include status information.
-      status = Integer.parseInt(path.get(2));
+      try {
+        status = Integer.parseInt(path.get(2));
+      } catch (NumberFormatException e) {
+        // Just ignore this, since it is caused often by fuzzing.
+      }
     }
     Responses.sendXssed(response, Templates.replacePayload(template, echoedParam), status);
   }
