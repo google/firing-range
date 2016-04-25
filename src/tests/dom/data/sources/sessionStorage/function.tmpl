@@ -1,5 +1,11 @@
+if (!sessionStorage.getItem('badValue')) {
+  sessionStorage.setItem('badValue', Math.random());
+}
+
 var payload = sessionStorage.getItem('badValue'); // Using sync trigger.
 
-// Clean up the sessionStorage to avoid side-effects on subsequent tests.
-delete window.sessionStorage;
-sessionStorage.clear();
+setTimeout(function() {
+  trigger(sessionStorage.getItem('badValue'));
+  // Clean up the sessionStorage to avoid side-effects on subsequent tests.
+  sessionStorage.clear();
+}, 10);

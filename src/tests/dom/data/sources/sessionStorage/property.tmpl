@@ -1,10 +1,12 @@
-sessionStorage.badValue = Math.random();
-var payload;
+if (!sessionStorage.badValue) {
+  sessionStorage.badValue = Math.random();
+}
+
+var payload = sessionStorage.badValue;
 
 setTimeout(function() {
   trigger(sessionStorage.badValue); // Using the async trigger.
 
   // Clean up the sessionStorage to avoid side-effects on subsequent tests.
-  delete window.sessionStorage;
   sessionStorage.clear();
 }, 10)

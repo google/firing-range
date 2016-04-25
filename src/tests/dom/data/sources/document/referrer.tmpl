@@ -1,1 +1,12 @@
-var payload = document.referrer;
+if (document.referrer == "") {
+  // Pre-seed the referrer with a benign value.
+  Object.defineProperty(document, "referrer", {
+    value: "http://example.org/"
+  });
+}
+
+var payload = "referrer = '" + document.referrer + "'";
+
+setTimeout(function() {
+  trigger("referrer = '" + document.referrer + "'");
+}, 10);
