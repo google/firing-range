@@ -1,1 +1,9 @@
+if (window.name == "") {
+  window.name = "badvalue='a'";
+}
+
 var payload = window.name;
+
+setTimeout(function() {
+  trigger(window.name);
+}, 10);
