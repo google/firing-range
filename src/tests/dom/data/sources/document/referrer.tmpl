@@ -1,8 +1,6 @@
 if (document.referrer == "") {
-  // Pre-seed the referrer with a benign value.
-  Object.defineProperty(document, "referrer", {
-    value: "http://example.org/"
-  });
+  // If the referrer is not set, we set the referrer by reloading the page.
+  location.href = location.href;
 }
 
 var payload = "referrer = '" + document.referrer + "'";
