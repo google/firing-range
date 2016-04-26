@@ -1,10 +1,10 @@
 if (document.referrer == "") {
   // If the referrer is not set, we set the referrer by reloading the page.
   location.href = location.href;
+} else {
+  var payload = "referrer = '" + document.referrer + "'";
+
+  setTimeout(function() {
+    trigger("referrer = '" + document.referrer + "'");
+  }, 10);
 }
-
-var payload = "referrer = '" + document.referrer + "'";
-
-setTimeout(function() {
-  trigger("referrer = '" + document.referrer + "'");
-}, 10);
