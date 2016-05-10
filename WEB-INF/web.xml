@@ -9,6 +9,14 @@
   </welcome-file-list>
 
   <servlet>
+    <servlet-name>UrlDomToLocation</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.urldom.Location</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UrlDomToLocation</servlet-name>
+    <url-pattern>/urldom/location/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>ReflectedParameter</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.reflected.Parameter</servlet-class>
   </servlet>
