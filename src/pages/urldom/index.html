@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Firing Range - URL-based DOM XSS vulnerabilities </title>
+</head>
+<body>
+  <div class="intro">
+    <p>
+      This page contains a set of DOM XSSes where the vulnerability is caused by a user-controllable URL. While most of the sinks support URIs with the JavaScript scheme (e.g. javascript:alert(document.domain)), some sinks use the user provided URL to fetch and execute external resources.
+    </p>
+    <p> 
+      In the examples presented below, the value inside location.hash is assigned to various URL-based JavaScript sinks.
+    </p>
+  </div>
+  <div class="test">
+    <h2>Sinks supporting JavaScript URI</h2>
+    <p>Assignment of location.hash to various URL-based JavaScript sinks.</p>
+    <ul>
+      <li><a href="/urldom/location/hash/document.location#//example.org">location.hash - document.location</a> - The location.hash value is assigned to the document.location attribute.</li>
+      <li><a href="/urldom/location/hash/window.open#//example.org">location.hash - window.open</a> - The location.hash value is used in the window.open function.</li>
+      <li><a href="/urldom/location/hash/iframe.src#//example.org">location.hash - iframe.src</a> - The location.hash value is assigned to the source of the iframe element.</li>
+      <li><a href="/urldom/location/hash/a.href#//example.org">location.hash - a.href</a> - The location.hash value is assigned to the href of the anchor element.</li>
+      <li><a href="/urldom/location/hash/input.formaction#//example.org">location.hash - input.formaction</a> - The location.hash value is used as the formaction of the input element.</li>
+    </ul>
+    <p>Assignment of location.search to various URL-based JavaScript sinks.</p>
+    <ul>
+      <li><a href="/urldom/location/search/location.assign?//example.org">location.search - document.location.assign</a> - The location.search value is used in the document.location.assign function.</li>
+      <li><a href="/urldom/location/search/frame.src?//example.org">location.search - frame.src</a> - The location.search value is assigned to the source of the frame element.</li>
+      <li><a href="/urldom/location/search/area.href?//example.org">location.search - area.href</a> - The location.search value is assigned to the href of the area element.</li>
+      <li><a href="/urldom/location/search/button.formaction?//example.org">location.search - button.formaction</a> - The location.search value is used as the formaction of the button element.</li>
+      <li><a href="/urldom/location/search/svg.a?//example.org">location.search - a.xlink-href</a> - The location.search value is assigned to the xlink:href attribute of the anchor element of a svg object.</li>
+    </ul>
+  </div>
+  
+  <div class="test">
+    <h1>Sinks supporting resource URIs </h1>
+    <p>Assignment of location.hash to various sinks that supports resource URIs</p>
+    <ul>
+      <li><a href="/urldom/location/hash/xhr.open#//example.org">location.hash - xhr.open</a> - The location.hash value is used as an argument to the xhr.open function in order to fetch external resources.</li>
+      <li><a href="/urldom/location/hash/script.src#//example.org">location.hash - script.src</a> - The location.hash value is assigned to the src attribute of the script element.</li>
+      <li><a href="/urldom/location/hash/object.data#//example.org">location.hash - object.data</a> - The location.hash value is assigned to the data attribute of the object element.</li>
+      <li><a href="/urldom/location/hash/embed.src#//example.org">location.hash - embed.src</a> - The location.hash value is assigned to the src attribute of the embed element.</li>
+    </ul>
+  </div>
+</body>
+</html>
