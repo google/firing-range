@@ -11,39 +11,64 @@
     <p> 
       In the examples presented below, the value inside location.hash is assigned to various URL-based JavaScript sinks.
     </p>
+    <p>
+      JSONP endpoint is provided <a href="/urldom/jsonp?callback=foo">here</a>.</br>
+      Redirection service is provided <a href="/urldom/redirect?url=http://example.com">here</a>.</br>
+    </p>
+    <p id="welcomeMsg">
+    </p>
+    <script>
+        function foobar(data) {
+          var divElement = document.createElement("div");
+          divElement.textContent = data["msg"];
+          document.getElementById("welcomeMsg").appendChild(divElement);
+        }
+    </script>
+    <script src="/urldom/jsonp?callback=foobar"></script>
+    <iframe style="display:none" src="/urldom/redirect?url=http://example.com"></iframe>
   </div>
   <div class="test">
     <h2>Sinks supporting JavaScript URI</h2>
     <p>Assignment of location.hash to various URL-based JavaScript sinks.</p>
     <ul>
-      <li><a href="/urldom/location/hash/document.location#//example.org">location.hash - document.location</a> - The location.hash value is assigned to the document.location attribute.</li>
-      <li><a href="/urldom/location/hash/window.open#//example.org">location.hash - window.open</a> - The location.hash value is used in the window.open function.</li>
-      <li><a href="/urldom/location/hash/iframe.src#//example.org">location.hash - iframe.src</a> - The location.hash value is assigned to the source of the iframe element.</li>
       <li><a href="/urldom/location/hash/a.href#//example.org">location.hash - a.href</a> - The location.hash value is assigned to the href of the anchor element.</li>
+      <li><a href="/urldom/location/hash/document.location#//example.org">location.hash - document.location</a> - The location.hash value is assigned to the document.location attribute.</li>
+      <li><a href="/urldom/location/hash/form.action#//example.org">location.hash - form.action</a> - The location.hash value is assigned to the form.action attribute.</li>
+      <li><a href="/urldom/location/hash/iframe.src#//example.org">location.hash - iframe.src</a> - The location.hash value is assigned to the source of the iframe element.</li>
       <li><a href="/urldom/location/hash/input.formaction#//example.org">location.hash - input.formaction</a> - The location.hash value is used as the formaction of the input element.</li>
+      <li><a href="/urldom/location/hash/param.movie.value?//example.org">location.hash - param[movie].value</a> - The location.hash value is assigned to the value attribute of a param element with type movie.</li>
+      <li><a href="/urldom/location/hash/param.url.value?//example.org">location.hash - param[url].value</a> - The location.hash value is assigned to the value attribute of a param element with type url.</li>
+      <li><a href="/urldom/location/hash/window.open#//example.org">location.hash - window.open</a> - The location.hash value is used in the window.open function.</li>
     </ul>
     <p>Assignment of location.search to various URL-based JavaScript sinks.</p>
     <ul>
+      <li><a href="/urldom/location/search/area.href?//example.org">location.search - area.href</a> - The location.search value is assigned to the href of the area element.</li>
+      <li><a href="/urldom/location/search/svg.a?//example.org">location.search - a.xlink-href</a> - The location.search value is assigned to the xlink:href attribute of the anchor element of a svg object.</li>
+      <li><a href="/urldom/location/search/button.formaction?//example.org">location.search - button.formaction</a> - The location.search value is used as the formaction of the button element.</li>
       <li><a href="/urldom/location/search/location.assign?//example.org">location.search - document.location.assign</a> - The location.search value is used in the document.location.assign function.</li>
       <li><a href="/urldom/location/search/frame.src?//example.org">location.search - frame.src</a> - The location.search value is assigned to the source of the frame element.</li>
-      <li><a href="/urldom/location/search/area.href?//example.org">location.search - area.href</a> - The location.search value is assigned to the href of the area element.</li>
-      <li><a href="/urldom/location/search/button.formaction?//example.org">location.search - button.formaction</a> - The location.search value is used as the formaction of the button element.</li>
-      <li><a href="/urldom/location/search/svg.a?//example.org">location.search - a.xlink-href</a> - The location.search value is assigned to the xlink:href attribute of the anchor element of a svg object.</li>
+      <li><a href="/urldom/location/search/param.code.value?//example.org">location.search - param[code].value</a> - The location.search value is assigned to the value attribute of a param element with type code.</li>
+      <li><a href="/urldom/location/search/param.src.value?//example.org">location.search - param[src].value</a> - The location.search value is assigned to the value attribute of a param element with type src.</li>
     </ul>
   </div>
-  
   <div class="test">
-    <h1>Sinks supporting resource URIs </h1>
+    <h2>Sinks supporting resource URIs</h2>
     <p>Assignment of location.hash to various sinks that supports resource URIs</p>
     <ul>
-      <li><a href="/urldom/location/hash/xhr.open#//example.org">location.hash - xhr.open</a> - The location.hash value is used as an argument to the xhr.open function in order to fetch external resources.</li>
-      <li><a href="/urldom/location/hash/script.src#//example.org">location.hash - script.src</a> - The location.hash value is assigned to the src attribute of the script element.</li>
-      <li><a href="/urldom/location/hash/object.data#//example.org">location.hash - object.data</a> - The location.hash value is assigned to the data attribute of the object element.</li>
-      <li><a href="/urldom/location/hash/embed.src#//example.org">location.hash - embed.src</a> - The location.hash value is assigned to the src attribute of the embed element.</li>
-      <li><a href="/urldom/location/hash/link.href#//example.org">location.hash - link.href</a> - The location.hash value is assigned to the href attribute of the link element.</li>
       <li><a href="/urldom/location/hash/base.href#//example.org">location.hash - base.href</a> - The location.hash value is assigned to the href attribute of the base element.</li>
-      <li><a href="/urldom/location/hash/script.href#//example.org">location.hash - script.href (xlink:href)</a> - The location.hash value is assigned to the xlink:href attribute of the script element.</li>
+      <li><a href="/urldom/location/hash/embed.src#//example.org">location.hash - embed.src</a> - The location.hash value is assigned to the src attribute of the embed element.</li>
       <li><a href="/urldom/location/hash/fetch#//example.org">location.hash - fetch resource</a> - The fetch API fetches the value in location.hash as an external resource.</li>
+      <li><a href="/urldom/location/hash/link.href#//example.org">location.hash - link.href</a> - The location.hash value is assigned to the href attribute of the link element.</li>
+      <li><a href="/urldom/location/hash/object.data#//example.org">location.hash - object.data</a> - The location.hash value is assigned to the data attribute of the object element.</li>
+      <li><a href="/urldom/location/hash/script.href#//example.org">location.hash - script.href (xlink:href)</a> - The location.hash value is assigned to the xlink:href attribute of the script element.</li>
+      <li><a href="/urldom/location/hash/script.src#//example.org">location.hash - script.src</a> - The location.hash value is assigned to the src attribute of the script element.</li>
+      <li><a href="/urldom/location/hash/xhr.open#//example.org">location.hash - xhr.open</a> - The location.hash value is used as an argument to the xhr.open function in order to fetch external resources.</li>
+    </ul>
+    <p>Assignment of location.hash concatenated with various hard-coded values to the src attribute of a script element.</p>
+    <ul>
+      <li><a href="/urldom/location/hash/script.src.partial_domain#/urldom/">location.hash - partial domain of URI to script.src</a> - The location.hash value is appended to "http://example.com" before being assigned to the src attribute of the script element.</li>
+      <li><a href="/urldom/location/hash/script.src.partial_path#urldom/script.js">location.hash - partial path of URI to script.src</a> - The location.hash value is appended to "/" before being assigned to the src attribute of the script element.</li>
+      <li><a href="/urldom/location/hash/script.src.partial_query#firing-range">location.hash - partial query string of URI to script.src</a> - The location.hash value is inserted as a query parameter value into a URI string before being assigned to the src attribute of the script element.</li>
     </ul>
   </div>
 </body>
