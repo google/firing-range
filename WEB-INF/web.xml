@@ -17,6 +17,22 @@
     <url-pattern>/urldom/location/*</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>UrlDomRedirection</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.urldom.Redirect</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UrlDomRedirection</servlet-name>
+    <url-pattern>/urldom/redirect/*</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>UrlDomJsonpEndpoint</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.urldom.JsonpEndpoint</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UrlDomJsonpEndpoint</servlet-name>
+    <url-pattern>/urldom/jsonp/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>ReflectedParameter</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.reflected.Parameter</servlet-class>
   </servlet>

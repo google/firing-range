@@ -1,0 +1,9 @@
+var scriptElement = document.createElement("script");
+scriptElement.src =
+location.origin + "/urldom/jsonp?referrer=" + payload + "&callback=helloWorld";
+document.body.appendChild(scriptElement);
+function helloWorld(data) {
+  var divElement = document.createElement("div");
+  divElement.textContent = data["msg"];
+  document.body.appendChild(divElement);
+}
