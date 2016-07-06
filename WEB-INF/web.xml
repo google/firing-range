@@ -184,7 +184,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>ToxicDomScripts</servlet-name>
-    <url-pattern>/dom/toxicdomscript/*</url-pattern>
+    <url-pattern>/dom/toxicdomscripts/*</url-pattern>
   </servlet-mapping>
 
   <servlet>
