@@ -9,12 +9,44 @@
   </welcome-file-list>
 
   <servlet>
+    <servlet-name>UrlDomToLocation</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.urldom.Location</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UrlDomToLocation</servlet-name>
+    <url-pattern>/urldom/location/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>UrlDomRedirection</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.urldom.Redirect</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UrlDomRedirection</servlet-name>
+    <url-pattern>/urldom/redirect/*</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>UrlDomJsonpEndpoint</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.urldom.JsonpEndpoint</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UrlDomJsonpEndpoint</servlet-name>
+    <url-pattern>/urldom/jsonp/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>ReflectedParameter</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.reflected.Parameter</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ReflectedParameter</servlet-name>
     <url-pattern>/reflected/parameter/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>EscapedParameter</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.reflected.EscapedParameter</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EscapedParameter</servlet-name>
+    <url-pattern>/reflected/escapedparameter/*</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>FilteredCharsets</servlet-name>

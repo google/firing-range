@@ -34,11 +34,6 @@ public class Parameter extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String echoedParam = Strings.nullToEmpty(request.getParameter(ECHOED_PARAM));
-    
-    if (!echoedParam.startsWith("https")) {
-      Responses.sendError(response, "Invalid URL, should be an absolute HTTPS URL", 400);
-      return;
-    }
 
     String template;
     try {

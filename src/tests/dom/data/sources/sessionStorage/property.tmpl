@@ -1,5 +1,8 @@
-sessionStorage.badValue = Math.random();
-var payload;
+if (!sessionStorage.badValue) {
+  sessionStorage.badValue = Math.random();
+}
+
+var payload = sessionStorage.badValue;
 
 setTimeout(function() {
   trigger(sessionStorage.badValue); // Using the async trigger.

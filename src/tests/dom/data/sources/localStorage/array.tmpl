@@ -1,5 +1,7 @@
-localStorage['badValue'] = Math.random();
-var payload;
+if (!localStorage['badValue']) {
+  localStorage['badValue'] = Math.random();
+}
+var payload = localStorage['badValue'];
 
 setTimeout(function() {
   trigger(localStorage['badValue']); // Using the async trigger.

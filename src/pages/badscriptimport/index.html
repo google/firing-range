@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firing Range - Bad import of JavaScript sources</title>
+</head>
+<body>
+<body>
+  These vulnerabilities import JavaScript from bad sources that are not
+  necessarily owned by the page owner. For more details, see
+  <a href="http://blog.securitee.org/?p=255">http://blog.securitee.org/?p=255</a>.
+
+  <ul>
+    <li>
+      Script inclusions from locahost, for example
+      <a href="/remoteinclude/parameter/script?q=http://127.0.0.2/localhost_import.js">
+        http://127.0.0.2/localhost_import.js</a>
+    </li>
+    <li>
+      Script inclusions from private-network IP addresses, for example
+      <a href="/remoteinclude/parameter/script?q=http://192.168.1.2/private_network_import.js">
+        http://192.168.1.2/private_network_import.js</a>
+    </li>
+    <li>
+      Script inclusions from non-registered domains or typosquatting domains, for example
+      <a href="/remoteinclude/parameter/script?q=http://g00gle.com/typosquatting_domain.js">
+        http://g00gle.com/typosquatting_domain.js</a>
+    </li>
+  </ul>
+</body>
+</html>

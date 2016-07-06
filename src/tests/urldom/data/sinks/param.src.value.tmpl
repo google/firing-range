@@ -1,0 +1,15 @@
+var objectElement = document.createElement("object");
+var paramTypeElement = document.createElement("param");
+var paramSrcElement = document.createElement("param");
+var paramAllowScriptAccessElement = document.createElement("param");
+paramTypeElement.name = "type";
+paramTypeElement.value = "application/x-shockwave-flash";
+paramAllowScriptAccessElement.name = "allowScriptAccess";
+paramAllowScriptAccessElement.value = "always";
+paramSrcElement.name = "src";
+paramSrcElement.value = payload;
+objectElement.appendChild(paramAllowScriptAccessElement);
+objectElement.appendChild(paramTypeElement);
+objectElement.appendChild(paramSrcElement);
+document.body.appendChild(objectElement);
+
