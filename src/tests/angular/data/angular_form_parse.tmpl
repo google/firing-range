@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<title>Angular Form Parse</title>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/%%VERSION%%/angular.js"></script>
+<script>
+  angular.module('test', [])
+      .controller('VulnerableController', ['$scope', '$parse', function($scope, $parse) {
+        $scope.submit = function() {
+          var expression = $scope.expression.trim();
+          if (expression) {
+            $parse(expression)({});
+          }
+        };
+      }]);
+</script>
+<form ng-app="test" ng-submit="submit()" ng-controller="VulnerableController">
+  <input ng-model="expression" placeholder="Angular Payload goes in here...">
+  <input type="submit" value="Parse">
+</form>

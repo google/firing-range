@@ -1,16 +1,34 @@
 <!DOCTYPE html>
-<html>
-<head>
 <title>Firing Range - CORS Tests</title>
-</head>
-<body>
 <h1>CORS tests</h1>
 <h2>Access-Control-Allow-Origin</h2>
+<div class="intro">
+  Cross-Origin Resource Sharing (CORS) allows websites to control cross-origin access to their
+  resources. The test cases showcase various misconfigurations.
+</div>
 <div class="test">
   <p>Tests verifying the soundness of the Access-Control-Allow-Origin header</p>
   <ul>
-    <li><a href="/cors/alloworigin/dynamicAllowOrigin">Insecure dynamic header generation</a></li>
+    <li>
+      <a href="/cors/alloworigin/dynamicAllowOrigin">Insecure dynamic header generation</a> -
+      Developers cannot use the wildcard (<code>*</code>) to allow multiple origins while at the
+      same time allowing authenticated requests. This is why many implementations create dynamic
+      responses based on the <code>Origin</code> header. If an endpoint blindly allows all origins
+      while at the same time allowing authenticated requests, either the resource should not require
+      authentication or it is too sensible to be shared across origin boundaries. This test case
+      blindly replays the <code>Origin</code> header in the <code>Access-Control-Allow-Origin</code>
+      header.
+    </li>
+    <li>
+      <a href="/cors/alloworigin/allowNullOrigin">Allows null origin</a> -
+      Allowing the <code>null</code> origin in an <code>Access-Control-Allow-Origin</code> header is
+      equivalent to allowing every origin. Combined with allowing authenticated requests, the same
+      concerns as with <i>insecure dynamic header generation</i> apply.
+    </li>
+    <li>
+      <a href="/cors/alloworigin/allowInsecureScheme">Allows insecure scheme</a> -
+      If an HTTP origin can perform authenticated requests to an HTTPS origin, the purpose of
+      SSL/TLS encryption in terms of web security is defeated.
+    </li>
   </ul>
-</div> 
-</body>
-</html>
+</div>

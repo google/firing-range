@@ -1,0 +1,7 @@
+// Writing to DOM attribute document.title and 
+// reading back propagates the XSS payload.
+
+var payload = location.hash.substr(1);
+window.status = payload;
+var retrieved_payload = window.status;
+eval(retrieved_payload);

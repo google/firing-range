@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<title>Angular postMessage Parse</title>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/%%VERSION%%/angular.js"></script>
+<script>
+  angular.module('test', [])
+      .controller('VulnerableController', ['$parse', function($parse) {
+        window.addEventListener('message', function(msg) {
+          $parse(msg.data)({});
+        }, false);
+      }]);
+</script>
+<div ng-app="test" ng-controller="VulnerableController"></div>

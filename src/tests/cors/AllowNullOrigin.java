@@ -13,16 +13,15 @@
  */
 package com.google.testing.security.firingrange.tests.cors;
 
-import com.google.common.base.Strings;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Servlet that dynamically echoes the {@code Origin} header value in the
- * {@code Access-Control-Allow-Origin} header.
+ * Page returning a null "Access-Control-Allow-Origin" header. This is insecure because every
+ * sandboxed iframe has the null origin, thus making this resource readable across all origins.
  */
-public final class DynamicAllowOrigin extends AllowOriginServlet {
+public final class AllowNullOrigin extends AllowOriginServlet {
   @Override
   protected String getAllowOriginValue(HttpServletRequest request) {
-    return Strings.nullToEmpty(request.getHeader("Origin"));
+    return "null";
   }
 }

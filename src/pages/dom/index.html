@@ -72,6 +72,29 @@
     <li><a href="/dom/eventtriggering/document/formSubmission/innerHtml">Event triggering - innerHTML</a></li>
     <li><a href="/dom/eventtriggering/document/formSubmission/documentWrite">Event triggering - documentWrite</a></li>
   </ul>
-</div> 
+  <p> These XSS from input values trigger only after being actually typed (input field receiving typing / change events)</p>
+  <ul>
+    <li><a href="/dom/eventtriggering/document/inputTyping/eval">Typing event triggered - eval</a></li>
+    <li><a href="/dom/eventtriggering/document/inputTyping/innerHtml">Typing event triggered - innerHTML</a></li>
+    <li><a href="/dom/eventtriggering/document/inputTyping/documentWrite">Typing event triggered - documentWrite</a></li>
+  </ul>
+</div>
+<h2>javascript:-URIs</h2>
+<div class="test">
+  <p>
+    javascript:-URIs have implicit document open/write behavior that can be used to write
+    unsanitized HTML.
+  </p>
+  <ul>
+    <li><a href="/dom/javascripturi.html">javascript:-URI - location.href</a></li>
+  </ul>
+</div>
+<h2>DOM Propagation</h2>
+<div class="test">
+  <p>XSS payload gets stored in DOM and later retrieved in JavaScript</p>
+  <ul>
+    <li><a href="/dom/dompropagation/">DOM Propagation</a></li>
+  </ul>
+</div>
 </body>
 </html>
