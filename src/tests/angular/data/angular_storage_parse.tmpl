@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<title>Angular localStorage Parse</title>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/%%VERSION%%/angular.js"></script>
+<script>
+  var irrelevantKey = 'irrelevant-key';
+  if (!localStorage[irrelevantKey]) {
+    localStorage[irrelevantKey] = '42';
+  }
+  angular.module('test', [])
+      .controller('VulnerableController', ['$parse', function($parse) {
+        $parse(localStorage.getItem(irrelevantKey))({});
+      }]);
+</script>
+<div ng-app="test" ng-controller="VulnerableController"></div>

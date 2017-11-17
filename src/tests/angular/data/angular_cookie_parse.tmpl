@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<title>Angular Cookie Parse</title>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/%%VERSION%%/angular.js"></script>
+<script>
+  /**
+   * Returns the value of the first cookie with the given name.
+   */
+  function lookupCookie(name) {
+    var parts = document.cookie.split(/\s*;\s*/);
+    var nameEq = name + '=';
+    for (var i = 0; i < parts.length; i++) {
+      if (parts[i].indexOf(nameEq) == 0) {
+        return parts[i].substr(nameEq.length);
+      }
+    }
+  }
+
+  // Pre-seed the cookie, if it has not been set yet.
+  var irrelevantName = 'irrelevantAngularCookie';
+  if (!lookupCookie(irrelevantName)) {
+    document.cookie = irrelevantName + '="42"';
+  }
+
+  angular.module('test', [])
+      .controller('VulnerableController', ['$parse', function($parse) {
+        $parse(lookupCookie(irrelevantName))({});
+      }]);
+</script>
+<div ng-app="test" ng-controller="VulnerableController"></div>

@@ -14,15 +14,19 @@
 package com.google.testing.security.firingrange.tests.cors;
 
 import com.google.common.base.Strings;
+import com.google.testing.security.firingrange.utils.Requests;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Servlet that dynamically echoes the {@code Origin} header value in the
- * {@code Access-Control-Allow-Origin} header.
+ * Servlet that doesn't reflect arbitrary origins in the {@code Access-Control-Allow-Origin} header
+ * but allows setting an HTTP scheme on an HTTPS resource.
  */
-public final class DynamicAllowOrigin extends AllowOriginServlet {
+public final class AllowInsecureScheme extends AllowOriginServlet {
   @Override
   protected String getAllowOriginValue(HttpServletRequest request) {
-    return Strings.nullToEmpty(request.getHeader("Origin"));
+    String origin = Strings.nullToEmpty(request.getHeader("Origin"));
+    String scheme = origin.startsWith("http:") ? "http" : "https";
+    String baseUrl = Requests.getBaseUrl(request);
+    return scheme + baseUrl.substring(baseUrl.indexOf(":"));
   }
 }

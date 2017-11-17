@@ -8,6 +8,7 @@
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
+
   <servlet>
     <servlet-name>UrlDomToLocation</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.urldom.Location</servlet-class>
@@ -17,6 +18,14 @@
     <url-pattern>/urldom/location/*</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>Angular</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.angular.Angular</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Angular</servlet-name>
+    <url-pattern>/angular/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>UrlDomRedirection</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.urldom.Redirect</servlet-class>
   </servlet>
@@ -24,7 +33,7 @@
     <servlet-name>UrlDomRedirection</servlet-name>
     <url-pattern>/urldom/redirect/*</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>UrlDomJsonpEndpoint</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.urldom.JsonpEndpoint</servlet-class>
   </servlet>
@@ -97,6 +106,22 @@
     <url-pattern>/escape/js/*</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>CorsAllowInsecureScheme</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.cors.AllowInsecureScheme</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CorsAllowInsecureScheme</servlet-name>
+    <url-pattern>/cors/alloworigin/allowInsecureScheme</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>CorsAllowNullOrigin</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.cors.AllowNullOrigin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CorsAllowNullOrigin</servlet-name>
+    <url-pattern>/cors/alloworigin/allowNullOrigin</url-pattern>
+  </servlet-mapping>
   <servlet>
     <servlet-name>CorsDynamicAllowOrigin</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.cors.DynamicAllowOrigin</servlet-class>
@@ -206,6 +231,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>DOMPropagation</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.dom.DOMPropagation</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DOMPropagation</servlet-name>
+    <url-pattern>/dom/dompropagation/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>FlashInjection</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.flashinjection.FlashInjection</servlet-class>
   </servlet>
@@ -240,4 +274,6 @@
     <servlet-name>UniversalReverseClickjackingSinglePage</servlet-name>
     <url-pattern>/reverseclickjacking/singlepage/*</url-pattern>
   </servlet-mapping>
+
+
 </web-app>
