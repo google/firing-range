@@ -1,0 +1,7 @@
+extraction:
+  java:
+    before_index:
+      - wget -q https://storage.googleapis.com/appengine-sdks/featured/appengine-java-sdk-1.9.59.zip -O "${LGTM_WORKSPACE}/sdk.zip"
+      - unzip -q -d "${LGTM_WORKSPACE}" "${LGTM_WORKSPACE}/sdk.zip"
+    index:
+      build_command: ant -Dappengine.sdk="${LGTM_WORKSPACE}/appengine-java-sdk-1.9.59" -noinput
