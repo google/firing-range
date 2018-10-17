@@ -275,5 +275,14 @@
     <url-pattern>/reverseclickjacking/singlepage/*</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>LeakedHttpOnlyCookie</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.leakedcookie.LeakedHttpOnlyCookie</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LeakedHttpOnlyCookie</servlet-name>
+    <url-pattern>/leakedcookie/leakedcookie</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>
