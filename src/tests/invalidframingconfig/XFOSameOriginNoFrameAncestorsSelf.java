@@ -29,7 +29,7 @@ public class XFOSameOriginNoFrameAncestorsSelf extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String template = Templates.getTemplate(BASE_TEMPLATE, this.getClass());
-    response.setHeader(HttpHeaders.X_FRAME_OPTIONS, "SAME-ORIGIN");
+    response.setHeader(HttpHeaders.X_FRAME_OPTIONS, "SAMEORIGIN");
     response.setHeader(HttpHeaders.CONTENT_SECURITY_POLICY, "frame-ancestors https://google.com");
 
     Responses.sendNormalPage(response, template);

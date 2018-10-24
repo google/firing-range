@@ -37,7 +37,7 @@ public final class XFOSameOriginNoFrameAncestorsSelfTest {
     when(response.getWriter()).thenReturn(writer);
     new XFOSameOriginNoFrameAncestorsSelf().doGet(request, response);
     verify(response).setStatus(200);
-    verify(response).setHeader("X-Frame-Options", "SAME-ORIGIN");
+    verify(response).setHeader("X-Frame-Options", "SAMEORIGIN");
     verify(response).setHeader("Content-Security-Policy", "frame-ancestors https://google.com");
   }
 }
