@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<title>Firing Range - Invalid framing configuration</title>
+<ul>
+  <li><a href="/invalidframingconfig/xfoallowfromnocoverdomain">X-Frame-Options ALLOW-FROM set but not in CSP frame-ancestors domains</a></li>
+  <li><a href="/invalidframingconfig/xfoallowfromnoframeancestors">X-Frame-Options ALLOW-FROM set but no CSP frame-ancestors</a></li>
+  <li><a href="/invalidframingconfig/frameancestorsnoxfoallowfrom">CSP frame-ancestors set but no X-Frame-Options ALLOW-FROM</a></li>
+
+  <li><a href="/invalidframingconfig/frameancestorsselfnoxfosameorigin">CSP frame-ancestors 'self' set but no X-Frame-Options SAME-ORIGIN</a></li>
+  <li><a href="/invalidframingconfig/xfosameoriginnoframeancestorsself">X-Frame-Options SAME-ORIGIN set but no CSP frame-ancestors 'self'</a></li>
+
+  <li><a href="/invalidframingconfig/frameancestorsnonenoxfodeny">CSP frame-ancestors 'none' set but no X-Frame-Options DENY</a></li>
+  <li><a href="/invalidframingconfig/xfodenynoframeancestorsnone">X-Frame-Options DENY set but no CSP frame-ancestors 'none'</a></li>
+</ul>
