@@ -13,33 +13,71 @@
  */
 package com.google.testing.security.firingrange.tests.leakedcookie;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.contains;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
+import com.google.common.base.Splitter;
+import com.google.common.net.HttpHeaders;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Matchers;
 
 /** Tests for {@link LeakedHttpOnlyCookie}. */
 @RunWith(JUnit4.class)
 public final class LeakedHttpOnlyCookieTest {
-  private HttpServletRequest request = mock(HttpServletRequest.class);
-  private HttpServletResponse response = mock(HttpServletResponse.class);
-  private PrintWriter writer = mock(PrintWriter.class);
+  private final HttpServletRequest request = mock(HttpServletRequest.class);
+  private final HttpServletResponse response = mock(HttpServletResponse.class);
+  private final PrintWriter writer = mock(PrintWriter.class);
+
+  @Before
+  public void setUpMocks() throws Exception {
+    when(response.getWriter()).thenReturn(writer);
+  }
 
   @Test
-  public void doGet_always_setsCookieAndReturnsItInResponse() throws IOException {
-    when(response.getWriter()).thenReturn(writer);
+  public void doGet_always_setsCookieAndReturnsItInResponse() throws Exception {
+    ArgumentCaptor<String> setCookieHeader = ArgumentCaptor.forClass(String.class);
+    doNothing()
+        .when(response)
+        .setHeader(Matchers.eq(HttpHeaders.SET_COOKIE), setCookieHeader.capture());
+
     new LeakedHttpOnlyCookie().doGet(request, response);
-    verify(response).setStatus(200);
-    verify(response)
-        .setHeader("Set-Cookie", "my_secret_cookie=my-magic-cookie-shouldnt-be-leaked; HttpOnly");
-    verify(writer).write(contains("my-magic-cookie-shouldnt-be-leaked"));
+
+    String cookieValue = extractCookieValue(setCookieHeader.getValue());
+    verify(response).setHeader(Matchers.eq(HttpHeaders.SET_COOKIE), contains("HttpOnly"));
+    verify(writer).write(contains(cookieValue));
+  }
+
+  @Test
+  public void doGet_whenCalledTwice_randomizesCookieValue() throws Exception {
+    ArgumentCaptor<String> setCookieHeader = ArgumentCaptor.forClass(String.class);
+    doNothing()
+        .when(response)
+        .setHeader(Matchers.eq(HttpHeaders.SET_COOKIE), setCookieHeader.capture());
+
+    new LeakedHttpOnlyCookie().doGet(request, response);
+    String cookieValue1 = extractCookieValue(setCookieHeader.getValue());
+    new LeakedHttpOnlyCookie().doGet(request, response);
+    String cookieValue2 = extractCookieValue(setCookieHeader.getValue());
+
+    // This might fail with a very low probability because the two cookie values might be the same
+    // by random. However, both values are generated from 8 bytes of random. The chances should be
+    // low enough.
+    assertNotEquals(cookieValue1, cookieValue2);
+  }
+
+  private static String extractCookieValue(String rawSetCookieHeader) {
+    String cookieNameAndValue = Splitter.on(';').splitToList(rawSetCookieHeader).get(0);
+    return Splitter.on('=').splitToList(cookieNameAndValue).get(1);
   }
 }

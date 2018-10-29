@@ -18,20 +18,34 @@ import com.google.common.net.HttpHeaders;
 import com.google.testing.security.firingrange.utils.Responses;
 import com.google.testing.security.firingrange.utils.Templates;
 import java.io.IOException;
+import java.util.Base64;
+import java.util.Random;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Handles setting httpOnly cookie which is leaked in the HTML body */
+/**
+ * Servlet setting an httpOnly cookie and leaking it in the body of the same response.
+ *
+ * <p>The actual value of the cookie is a random base64 string.
+ */
 public class LeakedHttpOnlyCookie extends HttpServlet {
   private static final String BASE_TEMPLATE = "leakedcookie.tmpl";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String template = Templates.getTemplate(BASE_TEMPLATE, this.getClass());
+    String cookieValue = createRandomString();
+    String template =
+        Templates.getTemplate(BASE_TEMPLATE, this.getClass()).replace("%%COOKIE%%", cookieValue);
     response.setHeader(
-        HttpHeaders.SET_COOKIE, "my_secret_cookie=my-magic-cookie-shouldnt-be-leaked; HttpOnly");
-
+        HttpHeaders.SET_COOKIE, String.format("my_secret_cookie=%s; HttpOnly", cookieValue));
     Responses.sendNormalPage(response, template);
+  }
+
+  private String createRandomString() {
+    Random random = new Random();
+    byte[] randomByteBuffer = new byte[8];
+    random.nextBytes(randomByteBuffer);
+    return Base64.getEncoder().encodeToString(randomByteBuffer);
   }
 }
