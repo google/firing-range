@@ -23,12 +23,14 @@ import static org.mockito.Mockito.when;
 import com.google.common.base.Splitter;
 import com.google.common.net.HttpHeaders;
 import java.io.PrintWriter;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.AdditionalMatchers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Matchers;
 
@@ -45,11 +47,12 @@ public final class LeakedHttpOnlyCookieTest {
   }
 
   @Test
-  public void doGet_always_setsCookieAndReturnsItInResponse() throws Exception {
+  public void doGet_leakedCookiePage_setsCookieAndReturnsItInResponse() throws Exception {
     ArgumentCaptor<String> setCookieHeader = ArgumentCaptor.forClass(String.class);
     doNothing()
         .when(response)
         .setHeader(Matchers.eq(HttpHeaders.SET_COOKIE), setCookieHeader.capture());
+    when(request.getPathInfo()).thenReturn("/leakedcookie");
 
     new LeakedHttpOnlyCookie().doGet(request, response);
 
@@ -59,11 +62,39 @@ public final class LeakedHttpOnlyCookieTest {
   }
 
   @Test
+  public void doGet_leakedInResource_setsCookieAndDoesntReturnItInResponse() throws Exception {
+    ArgumentCaptor<String> setCookieHeader = ArgumentCaptor.forClass(String.class);
+    doNothing()
+        .when(response)
+        .setHeader(Matchers.eq(HttpHeaders.SET_COOKIE), setCookieHeader.capture());
+    when(request.getPathInfo()).thenReturn("/leakedinresource");
+
+    new LeakedHttpOnlyCookie().doGet(request, response);
+
+    String cookieValue = extractCookieValue(setCookieHeader.getValue());
+    verify(writer).write(AdditionalMatchers.not(contains(cookieValue)));
+  }
+
+  @Test
+  public void doGet_whenRequestingResourcePath_leaksCookie() throws Exception {
+    Cookie cookie = new Cookie(LeakedHttpOnlyCookie.COOKIE_NAME, "327498279481");
+    Cookie[] cookies = new Cookie[1];
+    cookies[0] = cookie;
+    when(request.getPathInfo()).thenReturn("/leakedcookie.js");
+    when(request.getCookies()).thenReturn(cookies);
+
+    new LeakedHttpOnlyCookie().doGet(request, response);
+    verify(writer).write(contains("327498279481"));
+  }
+
+
+  @Test
   public void doGet_whenCalledTwice_randomizesCookieValue() throws Exception {
     ArgumentCaptor<String> setCookieHeader = ArgumentCaptor.forClass(String.class);
     doNothing()
         .when(response)
         .setHeader(Matchers.eq(HttpHeaders.SET_COOKIE), setCookieHeader.capture());
+    when(request.getPathInfo()).thenReturn("/leakedcookie");
 
     new LeakedHttpOnlyCookie().doGet(request, response);
     String cookieValue1 = extractCookieValue(setCookieHeader.getValue());

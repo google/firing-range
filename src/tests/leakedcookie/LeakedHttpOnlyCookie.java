@@ -14,12 +14,15 @@
 
 package com.google.testing.security.firingrange.tests.leakedcookie;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.net.HttpHeaders;
 import com.google.testing.security.firingrange.utils.Responses;
 import com.google.testing.security.firingrange.utils.Templates;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Optional;
 import java.util.Random;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,15 +34,48 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LeakedHttpOnlyCookie extends HttpServlet {
   private static final String BASE_TEMPLATE = "leakedcookie.tmpl";
+  private static final String JS_TEMPLATE = "leakedcookiejs.tmpl";
+  private static final String RESOURCE_TEMPLATE = "leakedcookieresource.tmpl";
+  @VisibleForTesting static final String COOKIE_NAME = "my_secret_cookie";
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String pathInfo = request.getPathInfo().substring(1);
     String cookieValue = createRandomString();
-    String template =
-        Templates.getTemplate(BASE_TEMPLATE, this.getClass()).replace("%%COOKIE%%", cookieValue);
-    response.setHeader(
-        HttpHeaders.SET_COOKIE, String.format("my_secret_cookie=%s; HttpOnly", cookieValue));
-    Responses.sendNormalPage(response, template);
+
+    switch (pathInfo) {
+      case "leakedcookie":
+        response.setHeader(
+            HttpHeaders.SET_COOKIE, String.format("%s=%s; HttpOnly", COOKIE_NAME, cookieValue));
+        Responses.sendNormalPage(
+            response,
+            Templates.getTemplate(BASE_TEMPLATE, this.getClass())
+                .replace("%%COOKIE%%", cookieValue));
+        break;
+      case "leakedinresource":
+        response.setHeader(
+            HttpHeaders.SET_COOKIE, String.format("%s=%s; HttpOnly", COOKIE_NAME, cookieValue));
+        Responses.sendNormalPage(
+            response, Templates.getTemplate(RESOURCE_TEMPLATE, this.getClass()));
+        break;
+      case "leakedcookie.js":
+        cookieValue = getCookieValueByName(request, COOKIE_NAME).orElse("");
+        Responses.sendJavaScript(
+            response,
+            Templates.getTemplate(JS_TEMPLATE, this.getClass()).replace("%%COOKIE%%", cookieValue));
+        break;
+      default: // fall out
+    }
+  }
+
+  private Optional<String> getCookieValueByName(HttpServletRequest request, String name) {
+    Cookie[] cookies = request.getCookies();
+    for (int i = 0; i < cookies.length; i++) {
+      if (cookies[i].getName().equals(name)) {
+        return Optional.of(cookies[i].getValue());
+      }
+    }
+    return Optional.empty();
   }
 
   private String createRandomString() {

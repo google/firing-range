@@ -281,7 +281,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LeakedHttpOnlyCookie</servlet-name>
-    <url-pattern>/leakedcookie/leakedcookie</url-pattern>
+    <url-pattern>/leakedcookie/*</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -325,7 +325,7 @@
     <servlet-name>XFOSameOriginNoFrameAncestorsSelf</servlet-name>
     <url-pattern>/invalidframingconfig/xfosameoriginnoframeancestorsself</url-pattern>
   </servlet-mapping>
-  
+
   <servlet>
     <servlet-name>XFODenyNoFrameAncestorsNone</servlet-name>
     <servlet-class>com.google.testing.security.firingrange.tests.invalidframingconfig.XFODenyNoFrameAncestorsNone</servlet-class>
