@@ -1,0 +1,8 @@
+var postMessageHandler = function(msg) {
+  const originRegExp = /https?:\/\/www.google.com/
+  if (msg.origin.match(originRegExp)) {
+    eval(msg.data);
+  }
+}
+
+window.addEventListener('message', postMessageHandler, false);

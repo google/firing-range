@@ -1,0 +1,14 @@
+const postMessageHandler = function(msg) {
+  let action = msg.data.action;
+  if(action === 'exec') {
+    eval(msg.data.payload);
+  } else if (action === 'addImage') {
+    document.write('<img href='+ msg.data.source + '>');
+  } else if (action === 'addHtml') {
+    document.write(msg.data.html);
+  } else {
+    console.debug('unsupported command');
+  }
+};
+
+window.addEventListener('message', postMessageHandler, false);

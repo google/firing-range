@@ -275,5 +275,74 @@
     <url-pattern>/reverseclickjacking/singlepage/*</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>LeakedHttpOnlyCookie</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.leakedcookie.LeakedHttpOnlyCookie</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LeakedHttpOnlyCookie</servlet-name>
+    <url-pattern>/leakedcookie/leakedcookie</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>XFOAllowFromNoCoverDomain</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.invalidframingconfig.XFOAllowFromNoCoverDomain</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>XFOAllowFromNoCoverDomain</servlet-name>
+    <url-pattern>/invalidframingconfig/xfoallowfromnocoverdomain</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>XFOAllowFromNoFrameAncestors</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.invalidframingconfig.XFOAllowFromNoFrameAncestors</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>XFOAllowFromNoFrameAncestors</servlet-name>
+    <url-pattern>/invalidframingconfig/xfoallowfromnoframeancestors</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>FrameAncestorsNoXFOAllowFrom</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.invalidframingconfig.FrameAncestorsNoXFOAllowFrom</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FrameAncestorsNoXFOAllowFrom</servlet-name>
+    <url-pattern>/invalidframingconfig/frameancestorsnoxfoallowfrom</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>FrameAncestorsSelfNoXFOSameOrigin</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.invalidframingconfig.FrameAncestorsSelfNoXFOSameOrigin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FrameAncestorsSelfNoXFOSameOrigin</servlet-name>
+    <url-pattern>/invalidframingconfig/frameancestorsselfnoxfosameorigin</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>XFOSameOriginNoFrameAncestorsSelf</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.invalidframingconfig.XFOSameOriginNoFrameAncestorsSelf</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>XFOSameOriginNoFrameAncestorsSelf</servlet-name>
+    <url-pattern>/invalidframingconfig/xfosameoriginnoframeancestorsself</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>XFODenyNoFrameAncestorsNone</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.invalidframingconfig.XFODenyNoFrameAncestorsNone</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>XFODenyNoFrameAncestorsNone</servlet-name>
+    <url-pattern>/invalidframingconfig/xfodenynoframeancestorsnone</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>FrameAncestorsNoneNoXFODeny</servlet-name>
+    <servlet-class>com.google.testing.security.firingrange.tests.invalidframingconfig.FrameAncestorsNoneNoXFODeny</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FrameAncestorsNoneNoXFODeny</servlet-name>
+    <url-pattern>/invalidframingconfig/frameancestorsnonenoxfodeny</url-pattern>
+  </servlet-mapping>
+
+
 
 </web-app>

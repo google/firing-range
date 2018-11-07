@@ -34,6 +34,17 @@ public class Angular extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    respond(request, response);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    respond(request, response);
+  }
+
+  /** Responds to the request by selecting the appropriate template, rendering and sending it. */
+  private void respond(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
     String pathInfo = request.getPathInfo().substring(1);
 
     if (CharMatcher.is('/').countIn(pathInfo) == 1) {
