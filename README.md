@@ -23,4 +23,4 @@ The application then will be run locally at http://localhost:8080
 
 # License information
 
-See the LICENSE file.
+See the [LICENSE file](LICENSE).
