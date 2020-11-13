@@ -21,6 +21,14 @@ is running at https://public-firing-range.appspot.com.
 
 The application then will be run locally at http://localhost:8080
 
+### Installing from Docker
+
+Docker image has been created and can be pulled from 0xshyam/firingrange
+
+`docker run -p 8080:8080 0xshyam/firingrange`
+
+The application will be available at http://localhost:8080
+
 # License information
 
 See the LICENSE file.
